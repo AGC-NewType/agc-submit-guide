@@ -3,8 +3,7 @@ import json
 import requests
 
 # URL
-# url = 'http://'+os.environ['REST_URL'] + ':30000'
-url = 'http://192.168.65.3:30000'
+url = 'http://'+ os.environ['REST_URL'] + ':30000'
 # headers
 headers = {
     "Content-Type": "application/json"
