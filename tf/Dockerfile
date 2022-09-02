@@ -1,5 +1,7 @@
 FROM tensorflow/tensorflow:latest-gpu
 
+LABEL email='bomebug15@keti.re.kr'
+
 ENV HOME=/home/
 ENV resr_url = ${REST_URL}
 

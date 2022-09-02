@@ -1,5 +1,7 @@
 FROM pytorch/pytorch:1.9.0-cuda10.2-cudnn7-runtime
 
+LABEL email='bomebug15@keti.re.kr'
+
 ENV HOME=/home/
 ENV resr_url = ${REST_URL}
 
