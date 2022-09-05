@@ -9,7 +9,8 @@ RUN mkdir -p ${HOME}/agc2022
 
 WORKDIR ${HOME}/agc2022
 
-COPY . .
+COPY ./src .
+
 EXPOSE 30000
 
 CMD ["python3","main.py"]
