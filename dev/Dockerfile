@@ -6,11 +6,12 @@ ENV HOME=/home/
 ENV resr_url = ${REST_URL}
 
 RUN mkdir -p ${HOME}/agc2022
-RUN pip install -r requirements.txt
 
 WORKDIR ${HOME}/agc2022
 
-COPY . .
+COPY ./src .
+
+RUN pip install -r requirements.txt
 
 EXPOSE 30000
 
