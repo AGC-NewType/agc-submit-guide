@@ -6,7 +6,7 @@ import tensorflow as tf
 from dataloader import MNIST
 
 def main():
-    url = 'http://'+ os.environ['REST_URL'] + ':30000'
+    url = os.environ['REST_URL']
     
     data_path = os.environ['DATA_PATH']
     inference_loader = MNIST(file_path = data_path)

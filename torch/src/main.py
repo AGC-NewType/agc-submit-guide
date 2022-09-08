@@ -8,7 +8,7 @@ from inference import inference
 from model import linear_model
 
 def main():
-    url = 'http://'+ os.environ['REST_URL'] + ':30000'
+    url = os.environ['REST_URL']
     
     data_path = os.environ['DATA_PATH']
     
@@ -23,7 +23,7 @@ def main():
     model.load_state_dict(torch.load('./my_model/mnist_net.pth'))
 
     # model result
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")            
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     answer=inference(model=model, inference_data= inference_loader,device=device)
     answer_dict = {'answer' : answer}
     data = json.dumps(answer_dict)
