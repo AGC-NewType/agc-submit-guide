@@ -26,7 +26,6 @@
 FROM {base로 사용할 이미지}
 
 ENV HOME=/home/
-ENV data_path = $(DATA_PATH) # 환경변수 data path 정의
 
 RUN mkdir -p ${HOME}/agc 
 
@@ -43,14 +42,16 @@ CMD ["python3","main.py"]
     
 #### 2. 추론코드 구조    
  추론코드 작성시에는 몇가지 유의사항이 존재합니다.     
-- 환경변수 단위의 data path 및 API URL을 입력받기 위한 os package 사용
-- 모델 결과 전송을 위한 requests 패키지 사용
-각 부분에 대한 코드 예시는 다음과 같습니다.
+- 환경변수 단위의 data path 및 API URL을 입력받기 위한 os package 사용   
+- 모델 결과 전송을 위한 requests 패키지 사용   
+
+위에서 설명한 두가지 부분에 대한 코드 명시는 다음과 같이 해주시기 바랍니다. 각 부분에 대한 코드 예시는 다음과 같습니다.   
+
 ```   
     url = os.environ['REST_URL']     
     data_path = os.environ['DATA_PATH']     
  ```   
-        
+           
 ```     
     answer_dict = {'answer' : answer}
     data = json.dumps(answer_dict)
