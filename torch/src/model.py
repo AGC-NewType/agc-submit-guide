@@ -1,5 +1,4 @@
 import torch.nn as nn
-from torchsummary import summary
 
 class Flatten(nn.Module):
     def forward(self, input):
@@ -21,6 +20,3 @@ class linear_model(nn.Module):
         output = self.fc2(output)
         output = self.softmax(output)
         return output
-
-    def summary(self):
-        summary(self, (1,28,28))
