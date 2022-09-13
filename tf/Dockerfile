@@ -3,7 +3,6 @@ FROM tensorflow/tensorflow:latest-gpu
 LABEL email='bomebug15@keti.re.kr'
 
 ENV HOME=/home/
-ENV data_path = $(DATA_PATH)
 
 RUN mkdir -p ${HOME}/agc2022
 
