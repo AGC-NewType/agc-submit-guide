@@ -4,7 +4,7 @@ from glob import glob
 import tensorflow as tf
 from tensorflow.keras.utils import Sequence
 
-class MNIST(Sequence):
+class MNIST_inference(Sequence):
     def __init__(self, file_path, batch_size=10, shuffle=False):
         self.batch_size = batch_size
         self.shuffle = shuffle
@@ -22,11 +22,4 @@ class MNIST(Sequence):
     def __getitem__(self, idx):
         file_batch = self.file_path[idx*self.batch_size:(idx+1)*self.batch_size]
         batch_img = [self.decode(img) for img in file_batch]
-        return np.array(batch_img) 
-
-if __name__ == '__main__':
-    dir = "C:/Users/bomeb/jh/agc-submit-guide/mnist_inference"
-    testloader = MNIST(file_path = dir)
-    for img in testloader:
-        print(img)
-        
+        return np.array(batch_img)        

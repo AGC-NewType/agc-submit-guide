@@ -17,22 +17,3 @@ class MNIST_inference(Dataset):
         if self.transform:
             img = self.transform(img)
         return img
-
-
-if __name__ == "__main__":
-    from torchvision.transforms import transforms
-    from torch.utils.data.dataloader import DataLoader
-
-    dir = "C:/Users/bomeb/jh/agc-submit-guide/mnist_inference"
-    transform = transforms.Compose([
-        transforms.Resize((32, 32)),
-        transforms.ToTensor()
-    ])
-
-    inference = MNIST_inference(data_dir=dir, transform=transform)
-    inference_loader = DataLoader(inference, batch_size=2, shuffle=True, num_workers=0)
-    
-    for img, label in inference_loader:
-        print(img)
-        import sys;
-        sys.exit(0)
