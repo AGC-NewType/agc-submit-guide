@@ -16,4 +16,3 @@ RUN pip install requests
 EXPOSE 30000
 
 CMD ["python3","main.py"]
-l
