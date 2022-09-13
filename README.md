@@ -50,7 +50,7 @@ CMD ["python3","main.py"] # 실행할 main.py 코드. 파일명이 다를경우 
 - 환경변수 단위의 data path 및 API URL을 입력받기 위한 os package 사용   
 - 모델 결과 전송을 위한 requests 패키지 사용   
 
-위에서 설명한 두가지 부분에 대한 코드 명시는 다음과 같이 해주시기 바랍니다. 각 부분에 대한 코드 예시는 다음과 같습니다.   
+위에서 설명한 두가지 부분에 대한 코드 명시는 다음과 같이 작성바랍니다. 각 부분에 대한 코드 예시는 다음과 같으며, 해당 내용은 [tf/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/tf/src/main.py), [torch/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/torch/src/main.py)에서 확인할 수 있습니다.   
 
 ```   
     url = os.environ['REST_URL']     
