@@ -8,8 +8,8 @@ from inference import inference
 from model import linear_model
 
 def main():
+    # load env variable
     url = os.environ['REST_URL']
-    
     data_path = os.environ['DATA_PATH']
     
     # inference data loader define

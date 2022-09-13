@@ -3,13 +3,13 @@ import json
 import requests
 import numpy as np
 import tensorflow as tf
-from dataloader import MNIST
+from dataloader import MNIST_inference
 
 def main():
+    # load env variable
     url = os.environ['REST_URL']
-    
     data_path = os.environ['DATA_PATH']
-    inference_loader = MNIST(file_path = data_path)
+    inference_loader = MNIST_inference(file_path = data_path)
 
     # model load & predict
     model = tf.keras.models.load_model("./my_model")
