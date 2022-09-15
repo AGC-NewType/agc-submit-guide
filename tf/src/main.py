@@ -1,8 +1,8 @@
 import os
 import json
-import requests
 import numpy as np
 import tensorflow as tf
+from urllib import request
 from dataloader import MNIST_inference
 
 def main():
@@ -19,10 +19,15 @@ def main():
     # model result request
     answer = [int(np.argmax(sample)) for sample in result]
     answer_dict = {'answer' : answer}
-    data = json.dumps(answer_dict)
-    response = requests.post(url, data=data)
-    print("response: ", response)
-    print("response.text: ", response.text)
+    data = json.dumps(answer_dict).encode('utf8')
+
+    # request result to API
+    headers = {
+    "Content-Type": "application/json"
+    }
+    req =  request.Request(url, data=data, headers=headers)
+    resp = request.urlopen(req)
+    print(resp.read().decode('utf8'))
 
 if __name__ == "__main__":
     main()

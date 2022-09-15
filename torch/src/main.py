@@ -1,7 +1,8 @@
 import os
 import json
 import torch
-import requests
+from urllib import request
+
 from torchvision import transforms
 from dataloader import MNIST_inference
 from inference import inference
@@ -26,12 +27,15 @@ def main():
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     answer=inference(model=model, inference_data= inference_loader,device=device)
     answer_dict = {'answer' : answer}
-    data = json.dumps(answer_dict)
+    data = json.dumps(answer_dict).encode('utf8')
     
     # request result to API
-    response = requests.post(url, data=data)
-    print("response: ", response)
-    print("response.text: ", response.text)
+    headers = {
+    "Content-Type": "application/json"
+    }
+    req =  request.Request(url, data=data, headers=headers)
+    resp = request.urlopen(req)
+    print(resp.read().decode('utf8'))
 
 if __name__ == "__main__":
     main()

@@ -10,8 +10,6 @@ WORKDIR ${HOME}/agc2022
 
 COPY ./src .
 
-RUN pip install requests
-
 EXPOSE 30000
 
 CMD ["python3","main.py"]
