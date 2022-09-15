@@ -18,7 +18,7 @@ temp = {
 }
 
 data = json.dumps(temp).encode('utf8')
-req =  request.Request(url, data=data, headers=headers) # this will make the method "POST"
+req =  request.Request(url, data=data, headers=headers)
 resp = request.urlopen(req)
 print(resp.read().decode('utf8'))
 print(resp.read().decode('utf8'))
