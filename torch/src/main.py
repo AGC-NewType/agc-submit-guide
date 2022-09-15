@@ -9,10 +9,11 @@ from inference import inference
 from model import linear_model
 
 def main():
-    # load env variable
+    # load environment variable
     url = os.environ['REST_URL']
     data_path = os.environ['DATA_PATH']
-    
+    headers = os.environ['API_HEADER']
+
     # inference data loader define
     transform = transforms.Compose(
         [transforms.ToTensor(),
@@ -30,9 +31,6 @@ def main():
     data = json.dumps(answer_dict).encode('utf8')
     
     # request result to API
-    headers = {
-    "Content-Type": "application/json"
-    }
     req =  request.Request(url, data=data, headers=headers)
     resp = request.urlopen(req)
     print(resp.read().decode('utf8'))

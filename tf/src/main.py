@@ -6,9 +6,12 @@ from urllib import request
 from dataloader import MNIST_inference
 
 def main():
-    # load env variable
+    # load environment variable
     url = os.environ['REST_URL']
     data_path = os.environ['DATA_PATH']
+    headers = os.environ['API_HEADER']
+
+    # define dataloader
     inference_loader = MNIST_inference(file_path = data_path)
 
     # model load & predict
@@ -22,9 +25,6 @@ def main():
     data = json.dumps(answer_dict).encode('utf8')
 
     # request result to API
-    headers = {
-    "Content-Type": "application/json"
-    }
     req =  request.Request(url, data=data, headers=headers)
     resp = request.urlopen(req)
     print(resp.read().decode('utf8'))
