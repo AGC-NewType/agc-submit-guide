@@ -30,6 +30,11 @@
 # dockerfile template   
 FROM {base로 사용할 이미지}   
 
+# 한국 시간대 설정
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Asia/Seoul
+RUN apt-get install -y tzdata
+
 ENV HOME=/home/
 
 RUN mkdir -p ${HOME}/agc 
@@ -57,8 +62,6 @@ CMD ["python3","main.py"] # 실행할 main.py 코드. 파일명이 다를경우 
 ```   
     # load environment variable
     url = os.environ['REST_URL']     
-    data_path = os.environ['DATA_PATH']     
-    headers = os.environ['API_HEADER']
  ```   
     
 API서버에 모델의 결과값을 전달할때는 json형식으로 변환이 필요합니다.            
@@ -79,4 +82,4 @@ docker build -f <Dockerfile 이름> -t <참가자ID>:<버전명>
 ```   
 docker save -o [참가자ID_answer.tar] [빌드한 이미지 이름(태그포함)]    
 ```   
-- 생성된 이미지 압축파일을 제출하시면 됩니다.
+- 생성된 이미지 압축파일 [참가자ID_answer.tar]을 제출하시면 됩니다.
