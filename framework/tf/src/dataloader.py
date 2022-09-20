@@ -15,7 +15,7 @@ class MNIST_inference(Sequence):
     
     def decode(self,file):
         img = img = tf.io.read_file(file)
-        img = tf.io.decode_image(img, channels=1, dtype=tf.dtypes.float32)
+        img = tf.io.decode_image(img, channels=1, dtype=tf.dtypes.uint8)
         img = np.resize(img, (28,28))
         return img
 
