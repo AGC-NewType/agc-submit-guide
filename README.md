@@ -2,7 +2,7 @@
 - 개요   
 인공지능 그랜드 챌린지 평가 플랫폼(이하 평가 플랫폼)은 챌린저의 추론 모델을 도커 이미지로 받아 평가합니다.   
 이 페이지는 챌린저가 평가 플랫폼에 추론 모델을 업로드할 수 있도록, 도커 이미지로 변환하기 위한 가이드를 제공합니다.   
-본 repository에서 제공하는 세 가지 폴더에 대한 설명은 다음과 같습니다.   
+본 repository는 batch별 inference 값을 REST API에 request 하는 예시를 기준으로 작성하였습니다. 제공하는 세 가지 폴더에 대한 설명은 다음과 같습니다.   
       
 - dev : python 이미지 기반 도커파일 밎 request POST 예시 main.py   
 - tf : tensorflow2.0 framework 이미지 기반 도커파일 및 MNIST inference request 예시 소스코드    
@@ -12,13 +12,13 @@
 ```    
 ├── example   
 │   ├── Dockerfile    
-│   └── src       
-│       └── my_model
-│       └── main.py
+│   └── src    
+│       └── my_model    
+│       └── main.py    
 ```   
 --------------------------------------------------------    
 
-본 가이드 페이지에서 제공하는 소스코드 제출을 위한 과정은 다음 3가지로 분류 됩니다      
+본 가이드 페이지에서 제공하는 소스코드 제출을 위한 과정은 다음 3가지로 분류 됩니다.      
          
 #### 1. 제출 파일(도커 이미지) 생성   
 - 각 환경에 맞는 도커 이미지 예시를 폴더별로 작성했습니다.    
@@ -43,33 +43,45 @@ WORKDIR ${HOME}/agc # 컨테이너 work dir 정의
 
 COPY ./src . # src 폴더의 소스코드를 도커 컨테이너로 복사
 
-CMD ["python3","main.py"] # 실행할 main.py 코드. 파일명이 다를경우 해당 파일명 기재
+CMD ["python3","main.py"] # 실행할 main.py 코드.
 ```    
 
 - 본 예시는 /src 폴더와 Dockerfile이 동일한 디렉토리에 있는 경우의 빌드과정을 나타냅니다.    
 - 소스코드가 저장된 폴드 이름이 ```/src```가 아닐 경우 ```dockerfile```에서 복사할 폴더이름과 해당폴더 이름을 동일하게 맞춰주면 됩니다.     
-- 마지막 CMD 명령어에는 실행될 python 파일명이 포함되어야 합니다. 본 저장소의 각 폴더별 main.py에 inference 결과 생성 및 API 서버로 결과를 전송하는 내용이 포함되어 있습니다.     
-- tensorflow, pytorch의 경우 base이미지의 버전에 따라 코드실행 여부가 결정됩니다. 확인하고 빌드에 참고해주시기 바랍니다.    
+- 마지막 CMD 명령어에는 실행될 python 파일명이 포함되어야 합니다. 파일명은 main.py로 작성해야합니다. main.py가 아닐경우 점수산정에 어려움이 있습니다.     
+- tensorflow, pytorch의 경우 base이미지의 버전에 따라 코드실행 여부가 결정됩니다.     
     
 #### 2. 추론코드 구조    
  추론코드 작성시에는 몇가지 유의사항이 존재합니다.     
 - 환경변수 단위의 data path 및 API URL 및 Header를 입력받기 위한 os package 사용   
-- API Call을 위한 결과값 json dump 및 request 과정
+- API 결과값 json dump 및 request 과정
 
+- 환경변수 설정은 [tf/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/tf/src/main.py), [torch/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/torch/src/main.py)에서 확인할 수 있습니다. 
 
-위에서 설명한 두가지 부분에 대한 코드 명시는 다음과 같이 작성바랍니다. 각 부분에 대한 코드 예시는 다음과 같으며, 해당 내용은 [tf/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/tf/src/main.py), [torch/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/torch/src/main.py)에서 확인할 수 있습니다.   
-
+- "REST_URL" 환경변수 로드 예시
 ```   
     # load environment variable
     url = os.environ['REST_URL']     
  ```   
     
-API서버에 모델의 결과값을 전달할때는 json형식으로 변환이 필요합니다.            
+- API request 예시
+API request는 배치가 끝날때마다 시행이 되도록 코드를 작성해야 합니다. API Request 과정은 inference 과정에서 매 배치마다 API server로 request하도록 코드작성을 해야합니다. 해당부분은 [tf/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/tf/src/main.py), [torch/src/inference.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/torch/src/inference.py)에서 확인할 수 있습니다. API서버에 모델의 결과값을 전달할때는 json형식으로 변환이 필요합니다. json dump 과정에서 'unicode-escape'로 encoding 형식을 지정해야하며, request return값을 출력하는 부분에서는 unicode를 UTF-8로 디코딩을 통해 python으로 출력이 되도록 코드를 작성해야합니다.
     
 ```     
-    answer_dict = {'answer' : answer}    
-    data = json.dumps(temp).encode('utf8')    
-    req =  request.Request(url, data=data, headers=headers)        
+    batch_answer = {'answer': batch_label}
+    
+    # apply unicode to str json data
+    data = json.dumps(batch_answer).encode('unicode-escape')
+    # request ready
+    req =  request.Request(url, data=data)
+    
+    # POST to API server
+    resp = request.urlopen(req)
+    
+    # check POST result
+    status = resp.read().decode('utf8')
+    if "OK" in status:
+        print("batch : "+str(batch+1)+"'s result requests successful!!")
 ```
     
 #### 3. 도커 이미지 빌드 & 이미지 추출        
