@@ -1,8 +1,7 @@
 # agc-submit-guide
 - 개요   
 인공지능 그랜드 챌린지 평가 플랫폼(이하 평가 플랫폼)은 챌린저의 추론 모델을 도커 이미지로 받아 평가합니다.   
-이 페이지는 챌린저가 평가 플랫폼에 추론 모델을 업로드할 수 있도록, 도커 이미지로 변환하기 위한 가이드를 제공합니다.   
-본 repository는 batch별 inference 값을 REST API에 request 하는 예시를 기준으로 작성하였습니다. 제공하는 세 가지 폴더에 대한 설명은 다음과 같습니다.   
+이 페이지는 챌린저가 평가 플랫폼에 추론 모델을 업로드할 수 있도록, 도커 이미지로 변환하기 위한 가이드를 제공합니다. 본 repository에서 제공하는 세 가지 폴더에 대한 설명은 다음과 같습니다.   
       
 - dev : python 이미지 기반 도커파일 밎 request POST 예시 main.py   
 - tf : tensorflow2.0 framework 이미지 기반 도커파일 및 MNIST inference request 예시 소스코드    
