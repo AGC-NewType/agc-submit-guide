@@ -58,19 +58,20 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
 > - 환경변수 단위의 API URL을 입력받기 위한 os package 사용, Request를 위한 urllib 패키지 사용   
 > - API 결과값 json dump 및 model inference 결과값 request 과정
 
-환경변수 설정은 [framework/tf/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/tf/src/main.py), [framework/torch/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/torch/src/main.py)에서 확인할 수 있습니다. 
+환경변수 설정은 [framework/tf/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/tf/src/main.py), [framework/torch/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/torch/src/main.py)에서 확인할 수 있습니다. data_path는 '/home/agc2022/data'로 작성합니다.
 
 - "REST_ANSWER_URL" 환경변수 로드 예시
 ```python   
     # load environment variable
-    url = os.environ['REST_ANSWER_URL']     
+    url = os.environ['REST_ANSWER_URL']    
+    data_path = '/home/agc2022/data' 
  ```   
     
 추론 과정에서 답안 제출은 REST API를 활용하여 온라인 평가 플랫폼에 전송합니다. (상세 메시지 구조 등은 세부문제정의서 참조)
 - REST API 수신 주소는 추론코드가 구동되는 평가 플랫폼에 환경 변수('REST_ANSWER_URL')로 정의되어 있습니다.
 
-답안 제출은 json형식으로의 변환이 필요하며, json dump 과정에서 'unicode-escape'로 encoding 형식을 지정합니다.
-request return값을 출력하는 부분에서는 unicode를 UTF-8로 디코딩을 통해 python으로 출력이 되도록 코드를 작성합니다.
+답안 제출은 json형식으로의 변환이 필요하며, json dump 과정에서 'unicode-escape'로 encoding 형식을 지정합니다.    
+request return값을 출력하는 부분에서는 unicode를 UTF-8로 디코딩을 통해 python으로 출력이 되도록 코드를 작성합니다.    
 - 관련 내용은 [framework/tf/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/tf/src/main.py), [framework/torch/src/inference.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/torch/src/inference.py)에서 확인할 수 있습니다.    
 
 - 답안 제출 예시    
