@@ -50,7 +50,7 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
 - 마지막 CMD 명령어에는 실행될 python 파일명이 포함되어야 합니다. 파일명은 **main.py**로 작성해야합니다. **main.py**가 아닐경우 점수산정에 어려움이 있습니다.     
 - tensorflow, pytorch의 경우 base이미지의 버전에 따라 코드실행 여부가 결정됩니다.     
 ----------    
-#### 2. 추론코드 구조    
+#### 2. 추론코드 작성    
  추론코드 작성시에는 몇가지 유의사항이 존재합니다.     
 > - 환경변수 단위의 API URL을 입력받기 위한 os package 사용, Request를 위한 urllib 패키지 사용   
 > - API 결과값 json dump 및 model inference 결과값 request 과정
