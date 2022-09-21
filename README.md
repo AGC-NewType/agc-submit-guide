@@ -8,7 +8,7 @@
 - torch : pytorch framework 이미지 기반 도커파일 및 MNIST inference request 예시 소스코드    
     
 이미지 빌드를 위해 폴더구조는  소스코드가 포함된 `/src`에 소스코드를 저장하는 구조를 사용했습니다. 해당폴더에 실행할 소스코드를 넣어서 빌드해주시기 바랍니다. 하단의 디렉토리 구조는 이해를 돕기위한 예시이며, 본 예시에서는 학습한 모델이 저장된 폴더를 my_model로 작성하였습니다.       
-```    
+```bash    
 ├── example   
 │   ├── Dockerfile    
 │   └── src    
@@ -49,26 +49,25 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
 - 소스코드가 저장된 디렉토리 이름이 ```/src```가 아닐 경우 ```dockerfile```에서 복사할 폴더이름과 해당폴더 이름을 동일하게 맞춰주면 됩니다.     
 - 마지막 CMD 명령어에는 실행될 python 파일명이 포함되어야 합니다. 파일명은 main.py로 작성해야합니다. main.py가 아닐경우 점수산정에 어려움이 있습니다.     
 - tensorflow, pytorch의 경우 base이미지의 버전에 따라 코드실행 여부가 결정됩니다.     
-    
+----------    
 #### 2. 추론코드 구조    
  추론코드 작성시에는 몇가지 유의사항이 존재합니다.     
-- 환경변수 단위의 data path 및 API URL 및 Header를 입력받기 위한 os package 사용   
-- API 결과값 json dump 및 request 과정
+>> 환경변수 단위의 data path 및 API URL 및 Header를 입력받기 위한 os package 사용   
+>> API 결과값 json dump 및 request 과정
 
-- 환경변수 설정은 [framework/tf/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/tf/src/main.py), [framework/torch/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/torch/src/main.py)에서 확인할 수 있습니다. 
+환경변수 설정은 [framework/tf/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/tf/src/main.py), [framework/torch/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/torch/src/main.py)에서 확인할 수 있습니다. 
 
 - "REST_URL" 환경변수 로드 예시
-```   
+```python   
     # load environment variable
     url = os.environ['REST_URL']     
  ```   
     
-- API request 예시
 API request는 배치가 끝날때마다 시행이 되도록 코드를 작성해야 합니다. API Request 과정은 inference 과정에서 매 배치마다 API server로 request하도록 코드작성을 해야합니다. API서버에 모델의 결과값을 전달할때는 json형식으로 변환이 필요합니다. json dump 과정에서 'unicode-escape'로 encoding 형식을 지정해야하며, request return값을 출력하는 부분에서는 unicode를 UTF-8로 디코딩을 통해 python으로 출력이 되도록 코드를 작성해야합니다.         
 - 해당부분은 [framework/tf/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/tf/src/main.py), [framework/torch/src/inference.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/torch/src/inference.py)에서 확인할 수 있습니다.    
 
-    
-```     
+- API request 예시    
+``` python    
     batch_answer = {'answer': batch_label}
     
     # apply unicode to str json data
