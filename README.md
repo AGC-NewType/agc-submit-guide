@@ -32,10 +32,9 @@
 FROM {base로 사용할 이미지}   
 
 # 한국 시간대 설정
-RUN apk update && apk add --no-cache tzdata && rm -rf /var/cache/apk/*
-RUN cp /usr/share/zoneinfo/Asia/Seoul /etc/localtime && \
-    echo "Asia/Seoul" > /etc/timezone
-RUN apk del tzdata
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Asia/Seoul
+RUN apt-get install -y tzdata
 
 ENV HOME=/home/
 
@@ -52,6 +51,7 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
 - 소스코드가 저장된 디렉토리 이름이 ```/src```가 아닐 경우 ```dockerfile```에서 복사할 폴더이름과 해당폴더 이름을 동일하게 맞춰주면 됩니다.     
 - 마지막 CMD 명령어에는 실행될 python 파일명이 포함되어야 합니다. 그렇지 않을 경우, 평가 플랫폼에서의 구동이 제한됩니다.
 - tensorflow, pytorch의 경우 base이미지의 버전에 따라 코드실행 여부가 결정됩니다.     
+- public pytorch image를 사용할 경우 'RUN apt-get update'를 추가해야 timezone 관련 설정이 정상적으로 작동합니다.
 ----------    
 #### 2. 추론코드 작성    
  추론코드 작성시에는 몇가지 유의사항이 존재합니다.     
