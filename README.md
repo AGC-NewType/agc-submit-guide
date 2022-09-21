@@ -8,7 +8,7 @@
 - torch : pytorch framework 이미지 기반 도커파일 및 MNIST inference request 예시 소스코드    
     
 이미지 빌드를 위해 폴더구조는  소스코드가 포함된 `/src`에 소스코드를 저장하는 구조를 사용했습니다. 해당폴더에 실행할 소스코드를 넣어서 빌드해주시기 바랍니다. 하단의 디렉토리 구조는 이해를 돕기위한 예시이며, 본 예시에서는 학습한 모델이 저장된 폴더를 my_model로 작성하였습니다.       
-```bash    
+```bsh    
 ├── example   
 │   ├── Dockerfile    
 │   └── src    
@@ -25,7 +25,7 @@
 - 다른이름으로 생성한 도커파일을 사용할 경우에는 ```docker build -f <생성한 도커파일 이름> -t ...``` 을 사용하시기 바랍니다.    
 - 기본적인 도커파일 내부구조는 다음과 같습니다.    
     
-```    
+```dockerfile    
 # dockerfile template   
 FROM {base로 사용할 이미지}   
 
