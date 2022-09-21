@@ -8,7 +8,7 @@ from dataloader import MNIST_inference
 
 def main():
     # load environment variable
-    url = os.environ['REST_URL']
+    url = os.environ['REST_ANSWER_URL']
     data_path = '/home/agc2022/data'
     
     # define dataloader

@@ -3,7 +3,7 @@ import json
 from urllib import request
 
 # # URL
-url = os.environ['REST_URL']
+url = os.environ['REST_ANSWER_URL']
 
 # sample data
 temp = { 
@@ -16,7 +16,7 @@ temp = {
 }
 
 # post to API server
-data = json.dumps(temp).encode('utf8')
+data = json.dumps(temp).encode('unicode-escape')
 req =  request.Request(url, data=data)
 
 # check API server return
