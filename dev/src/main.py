@@ -21,4 +21,6 @@ req =  request.Request(url, data=data)
 
 # check API server return
 resp = request.urlopen(req)
-print(resp.read().decode('utf8'))
+status = resp.read().decode('utf8')
+if "OK" in status:
+    print("data requests successful!!")
