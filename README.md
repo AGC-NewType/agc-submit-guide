@@ -52,8 +52,8 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
 ----------    
 #### 2. 추론코드 구조    
  추론코드 작성시에는 몇가지 유의사항이 존재합니다.     
-> - 환경변수 단위의 data path 및 API URL 및 Header를 입력받기 위한 os package 사용   
-> - API 결과값 json dump 및 request 과정
+> - 환경변수 단위의 API URL을 입력받기 위한 os package 사용, Request를 위한 urllib 패키지 사용   
+> - API 결과값 json dump 및 model inference 결과값 request 과정
 
 환경변수 설정은 [framework/tf/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/tf/src/main.py), [framework/torch/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/torch/src/main.py)에서 확인할 수 있습니다. 
 
