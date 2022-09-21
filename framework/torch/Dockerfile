@@ -2,10 +2,11 @@ FROM pytorch/pytorch:1.12.1-cuda11.3-cudnn8-runtime
 
 LABEL email='bomebug15@keti.re.kr'
 
-RUN apk update && apk add --no-cache tzdata && rm -rf /var/cache/apk/*
-RUN cp /usr/share/zoneinfo/Asia/Seoul /etc/localtime && \
-    echo "Asia/Seoul" > /etc/timezone
-RUN apk del tzdata
+RUN apt-get update
+
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Asia/Seoul
+RUN apt-get install -y tzdata
 
 ENV HOME=/home/
 
