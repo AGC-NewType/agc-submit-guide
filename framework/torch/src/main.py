@@ -10,7 +10,7 @@ from dataloader import MNIST_inference
 def main():
     # load environment variable
     api_url = os.environ['REST_ANSWER_URL']
-    data_path = '/home/agc2022/data'
+    data_path = '/home/agc2022/data/'
     
     # inference data loader define
     transform = transforms.Compose(

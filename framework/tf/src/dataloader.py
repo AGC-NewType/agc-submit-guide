@@ -8,7 +8,7 @@ class MNIST_inference(Sequence):
     def __init__(self, file_path, batch_size=10, shuffle=False):
         self.batch_size = batch_size
         self.shuffle = shuffle
-        self.file_path = glob(file_path+ "/**/**.png")
+        self.file_path = glob(file_path+ "**/**.png")
         
     def __len__(self):
         return math.ceil(len(self.file_path)//self.batch_size)

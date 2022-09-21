@@ -5,7 +5,7 @@ from torch.utils.data.dataset import Dataset  # for custom dataloader
 class MNIST_inference(Dataset):
 
     def __init__(self, data_dir, transform):
-        self.data_dir = glob(data_dir + "/**/**.png")
+        self.data_dir = glob(data_dir + "**/**.png")
         self.transform = transform
 
     def __len__(self):
