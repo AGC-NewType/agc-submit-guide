@@ -60,7 +60,7 @@ def main():
 
     # json dump & encode unicode
     tmp_message = json.dumps(message_structure).encode('unicode-escape')
-    request_message = request.Request(url, data=tmp_message) 
+    request_message = request.Request(api_url, data=tmp_message) 
     resp = request.urlopen(request_message) # POST
     
 if __name__ == "__main__":
