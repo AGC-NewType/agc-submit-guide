@@ -1,5 +1,7 @@
 import os
+import json
 import torch
+from urllib import request
 from model import linear_model
 from inference import inference
 from torchvision import transforms
@@ -31,6 +33,18 @@ def main():
 
     # model result
     inference(model=model, inference_data= inference_loader,device=device,url=api_url)
+    
+    # request end of mission message
+    message_structure = {
+    "team_id": "convai",
+    "secret": "3dlZhXRPPyt22tR9",
+    "end_of_mission": "true"
+    }
 
+    # json dump & encode unicode
+    tmp_message = json.dumps(message_structure).encode('unicode-escape')
+    request_message = request.Request(api_url, data=tmp_message) 
+    resp = request.urlopen(request_message) # POST
+    
 if __name__ == "__main__":
     main()
