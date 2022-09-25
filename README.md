@@ -12,17 +12,27 @@
 ```bsh    
 ├── example   
 │   ├── Dockerfile    
+│   ├── template.json
 │   └── src    
 │       └── my_model    
 │       └── main.py    
 ```   
-작업된 소스코드는 `/src`에 넣어 빌드를 진행해 주세요. (본 예시에서는 학습한 모델이 저장된 폴더를 my_model로 작성하였습니다.)
+
+```json
+{
+    "team_id": "convai",
+    "secret": "3dlZhXRPPyt22tR9",
+    "answer_sheet": []
+}
+```
+- template.json은 답안제출용 template입니다.     
+- 작업된 소스코드는 `/src`에 넣어 빌드를 진행해 주세요. (본 예시에서는 학습한 모델이 저장된 폴더를 my_model로 작성하였습니다.)
 
 --------------------------------------------------------    
 
 본 가이드 페이지에서 제공하는 도커 이미지 빌드를 위한 과정은 다음 3가지로 분류 됩니다.      
          
-#### 1. 제출 파일(도커 이미지) 생성   
+### 1. 제출 파일(도커 이미지) 생성   
 - 각 환경(tensorflow, pytorch)에 맞는 도커 이미지 예시를 폴더별로 작성했습니다.    
 - 도커 이미지 빌드를 위한 도커 파일의 이름은 ```Dockerfile``` 로 작성합니다. (recomended).
 - 기본적인 도커파일 내부구조는 다음과 같습니다.    
@@ -38,61 +48,110 @@ RUN apt-get install -y tzdata
 
 ENV HOME=/home/
 
-RUN mkdir -p ${HOME}/agc 
+RUN mkdir -p ${HOME}/agc/data 
 
 WORKDIR ${HOME}/agc # 컨테이너 work dir 정의
 
 COPY ./src . # src 폴더의 소스코드를 도커 컨테이너로 복사
+COPY ./template.json ${HOME}/agc2022/data # template파일을 도커 컨테이너로 복사
 
 CMD ["python3","main.py"] # 실행할 main.py 코드.
 ```    
 
 - 본 예시는 /src 폴더와 Dockerfile이 동일한 디렉토리에 있는 경우의 빌드과정을 나타냅니다.    
 - 소스코드가 저장된 디렉토리 이름이 ```/src```가 아닐 경우 ```dockerfile```에서 복사할 폴더이름과 해당폴더 이름을 동일하게 맞춰주면 됩니다.     
-- 마지막 CMD 명령어에는 실행될 python 파일명이 포함되어야 합니다. 그렇지 않을 경우, 평가 플랫폼에서의 구동이 제한됩니다.
-- tensorflow, pytorch의 경우 base이미지의 버전에 따라 코드실행 여부가 결정됩니다.     
-- public pytorch image를 사용할 경우 도커파일 내부 이미지 선언부 하단에 'RUN apt-get update'를 추가해야 timezone 관련 설정이 정상적으로 작동합니다.
+- template.json 파일 및 소스코드 저장경로가 dockerfile이 위치한 디렉토리와 다를경우 상대경로가 아닌 절대경로로 작성해야 이미지에 포함됩니다.    
+- 마지막 CMD 명령어에는 실행될 python 파일명이 포함되어야 합니다. 그렇지 않을 경우, 평가 플랫폼에서의 구동이 제한됩니다.         
+- public pytorch image를 사용할 경우 도커파일 내부 이미지 선언부 하단에 'RUN apt-get update'를 추가해야 timezone 관련 설정이 정상적으로 작동합니다.     
+    
 ----------    
-#### 2. 추론코드 작성    
+    
+### 2. 추론코드 작성    
+     
  추론코드 작성시에는 몇가지 유의사항이 존재합니다.     
-> - 환경변수 단위의 API URL을 입력받기 위한 os package 사용, Request를 위한 urllib 패키지 사용   
-> - API 결과값 json dump 및 model inference 결과값 request 과정
-
-환경변수 설정은 [framework/tf/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/tf/src/main.py), [framework/torch/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/torch/src/main.py)에서 확인할 수 있습니다. data_path는 '/home/agc2022/data'로 작성합니다.
-
-- "REST_ANSWER_URL" 환경변수 로드 예시
-```python   
+      
+> - 환경변수 단위의 API URL을 입력받기 위한 os package 사용, Request를 위한 urllib 패키지 사용        
+> - API 결과값 json dump 및 model inference 결과값 request 과정        
+      
+환경변수 설정은 실행될 source code main.py 상단부에 작성해야합니다. 해당 예시는 [dev/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/dev/src/main.py), [framework/tf/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/framework/tf/src/main.py), [framework/torch/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/framework/torch/src/main.py)에서 확인할 수 있습니다. 또한, data_path는 '/home/agc2022/data'로 작성합니다.    
+    
+- python 환경변수 로드 예시     
+```python    
     # load environment variable
     url = os.environ['REST_ANSWER_URL']    
-    data_path = '/home/agc2022/data' 
- ```   
+    data_path = '/home/agc2022/data'     
+ ```     
+- REST API 수신 주소는 추론코드가 구동되는 평가 플랫폼에 환경 변수('REST_ANSWER_URL')로 정의되어 있습니다.     
     
-추론 과정에서 답안 제출은 REST API를 활용하여 온라인 평가 플랫폼에 전송합니다. (상세 메시지 구조 등은 세부문제정의서 참조)
-- REST API 수신 주소는 추론코드가 구동되는 평가 플랫폼에 환경 변수('REST_ANSWER_URL')로 정의되어 있습니다.
+추론 과정에서 답안 제출은 REST API를 활용하여 온라인 평가 플랫폼에 전송합니다. 제출은 batch 단위로 진행해야하며, 세부문제정의서에서 언급한 메시지 구조를 따라야합니다. 다음 예시는 batch_size를 20으로 설정했을때 batch 단위 답안제출 예시 json 입니다.~~(상세 메시지 구조 등은 세부문제정의서 참조)~~     
+- **batch단위 답안 제출 예시**
+```json
+{
+    "team_id": "convai",
+    "secret": "3dlZhXRPPyt22tR9",
+    "answer_sheet": [
+        {
+            "no": "1",
+            "answer": 4
+        },
+        {
+            "no": "2",
+            "answer": 3
+        },
+        ...
+        {
+            "no": "20",
+            "answer": 10
+        }
+    ]
+}
+```    
+API POST 과정에는 두가지 유의사항이 존재합니다.    
+>- json dump 과정에서 'unicode-escape'로 encoding 형식을 지정합니다.     
+>- 제출 성공 여부를 판별하기 위해 request return값을 출력하는 부분에서는 unicode를 UTF-8로 디코딩을 통해 python으로 출력이 되도록 코드를 작성합니다.     
+     
+관련 내용은 [framework/tf/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/tf/src/main.py), [framework/torch/src/inference.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/torch/src/inference.py)에서 확인할 수 있습니다.    
 
-답안 제출은 json형식으로의 변환이 필요하며, json dump 과정에서 'unicode-escape'로 encoding 형식을 지정합니다.    
-request return값을 출력하는 부분에서는 unicode를 UTF-8로 디코딩을 통해 python으로 출력이 되도록 코드를 작성합니다.    
-- 관련 내용은 [framework/tf/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/tf/src/main.py), [framework/torch/src/inference.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/torch/src/inference.py)에서 확인할 수 있습니다.    
-
-- 답안 제출 예시    
+- 결과값 POST 예시
 ``` python    
-    batch_answer = {'answer': batch_label}
+    # model load & predict
+    model = tf.keras.models.load_model("./my_model")
     
-    # apply unicode to str json data
-    data = json.dumps(batch_answer).encode('unicode-escape')
-    # request ready
-    req =  request.Request(url, data=data)
+    # define template json path
+    template_path = '/home/agc2022/data/template.json'
     
-    # POST to API server
-    resp = request.urlopen(req)
+    for batch,data in enumerate(inference_loader):
+        # load answer template
+        with open(template_path,"r") as answer_json:
+            json_data = json.load(answer_json)
+                
+        # get inference result 
+        output = model(data)
+        
+        # extract label from inference output
+        batch_label = [int(np.argmax(sample)) for sample in output]
+
+        # define tmp_answer for append to json_data['answer_sheet']:list
+        for num,label in enumerate(batch_label):
+            tmp_answer = {"no":str(num+1), "answer" : str(label)}
+            json_data['answer_sheet'].append(tmp_answer)
+        
+        # apply unicode to str json data
+        data = json.dumps(json_data).encode('unicode-escape')
+        # request ready
+        req =  request.Request(api_url, data=data)
+        
+        # POST to API server
+        resp = request.urlopen(req)
+        
+        # check POST result
+        status = resp.read().decode('utf8')
+        if "OK" in status:
+            print("batch : "+str(batch+1)+"'s result requests successful!!")
+```     
     
-    # check POST result
-    status = resp.read().decode('utf8')
-    if "OK" in status:
-        print("batch : "+str(batch+1)+"'s result requests successful!!")
-```
-    
-#### 3. 도커 이미지 빌드 & 이미지 추출        
+               
+### 3. 도커 이미지 빌드 & 이미지 추출        
 - 앞서 정의한 Dockerfile를 통해 이미지를 빌드합니다. 빌드 코드는 다음과 같습니다.    
 ```
 docker build -f <Dockerfile 이름> -t <참가자ID>:<태그명>
