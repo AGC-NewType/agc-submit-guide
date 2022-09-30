@@ -7,13 +7,11 @@ from inference import inference
 from torchvision import transforms
 from dataloader import MNIST_inference
 
-
-
 def main():
     # load environment variable
     api_url = os.environ['REST_ANSWER_URL']
     data_path = '/home/agc2022/data/'
-    
+
     # inference data loader define
     transform = transforms.Compose(
         [transforms.ToTensor(),
@@ -21,7 +19,7 @@ def main():
     
     # load inference set & inference loader
     inference_set = MNIST_inference(data_dir = data_path, transform = transform)
-    inference_loader =torch.utils.data.DataLoader(inference_set, batch_size=10,shuffle=False,num_workers=1)
+    inference_loader =torch.utils.data.DataLoader(inference_set, batch_size=1,shuffle=False,num_workers=1)
 
     # define device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -36,8 +34,8 @@ def main():
     
     # request end of mission message
     message_structure = {
-    "team_id": "convai",
-    "secret": "3dlZhXRPPyt22tR9",
+    "team_id": "userxx",
+    "secret": "!@#$%^&*()",
     "end_of_mission": "true"
     }
 

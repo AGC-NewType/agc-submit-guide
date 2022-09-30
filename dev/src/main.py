@@ -3,20 +3,23 @@ import json
 import time
 from urllib import request
 
-# URL, template json load
+# REST URL load
 url = os.environ['REST_ANSWER_URL']
-template_path = '/home/agc2022/data/template.json'
-with open(template_path,"r") as answer_json:
-    json_data = json.load(answer_json)
+
+# answer template
+json_data = {
+    "team_id": "userxx",
+    "secret": "!@#$%^&*()",
+    "answer_sheet": {}
+}
     
     
-# sample data
+# input sample data to template
 temp = {
         "no": "1", 
         "answer": "20"
-    }
-json_data['answer_sheet'].append(temp)
-time.sleep(3)
+}
+json_data['answer_sheet'] = temp
 
 # post to API server
 data = json.dumps(temp).encode('unicode-escape')
@@ -30,8 +33,8 @@ if "OK" in status:
     
 # request end of mission message
 message_structure = {
-"team_id": "convai",
-"secret": "3dlZhXRPPyt22tR9",
+"team_id": "userxx",
+"secret": "!@#$%^&*()",
 "end_of_mission": "true"
 }
 
