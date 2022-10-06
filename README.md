@@ -76,8 +76,8 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
 - **batch단위 답안 제출 예시**
 ```json
 {
-    "team_id": "convai",
-    "secret": "3dlZhXRPPyt22tR9",
+    "team_id": "userxx",
+    "secret": "!@#$%^&*()",
     "answer_sheet": 
         {
             "no": "1",
