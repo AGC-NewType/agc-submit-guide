@@ -145,6 +145,7 @@ docker save -o [참가자ID.tar] [빌드한 이미지 이름(태그포함)]
 ```   
 - 생성된 이미지 압축파일 [참가자ID.tar]을 온라인 평가 플랫폼에 제출하시면 됩니다.
 
+-------------------------
 ### 3차 대회 관련 공지    
 
 #### 3차대회 참가팀은 ROS 사용을 위해 {특정 디렉토리}의 Dockerfile ros_entrypoint.sh user_command.sh main.py를 참고하시면 됩니다.    
