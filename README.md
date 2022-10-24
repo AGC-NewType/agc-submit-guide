@@ -68,7 +68,7 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
 ```python    
     # load environment variable
     url = os.environ['REST_ANSWER_URL']    
-    data_path = '/home/agc2022/data'     
+    data_path = '/home/agc2022/dataset'     
  ```     
 - REST API 수신 주소는 추론코드가 구동되는 평가 플랫폼에 환경 변수('REST_ANSWER_URL')로 정의되어 있습니다.     
     
