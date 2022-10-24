@@ -19,6 +19,8 @@
      
 - 작업된 소스코드는 `/src`에 넣어 빌드를 진행해 주세요. (본 예시에서는 학습한 모델이 저장된 폴더를 my_model로 작성하였습니다.)    
     
+- 3차 대회 관련 공지는 [3차대회 공지사항](#3차-대회-관련-공지)을 참고해주시기 바랍니다.    
+
 --------------------------------------------------------    
     
 본 가이드 페이지에서 제공하는 도커 이미지 빌드를 위한 과정은 다음 3가지로 분류 됩니다.      
@@ -142,3 +144,26 @@ docker build -f <Dockerfile 이름> -t <참가자ID>:<태그명> .
 docker save -o [참가자ID.tar] [빌드한 이미지 이름(태그포함)]    
 ```   
 - 생성된 이미지 압축파일 [참가자ID.tar]을 온라인 평가 플랫폼에 제출하시면 됩니다.
+
+### 3차 대회 관련 공지    
+
+#### 3차대회 참가팀은 ROS 사용을 위해 {특정 디렉토리}의 Dockerfile ros_entrypoint.sh user_command.sh main.py를 참고하시면 됩니다.    
+
+-  3차 대회 관련 추가 폴더 내부구조
+
+```
+├── Dockerfile
+└── src
+    ├── main.py
+    ├── requirements.txt
+    ├── ros_entrypoint.sh
+    └── user_command.bash
+```
+
+#### 수정 필요 사항    
+- Dockerfile : ROS_MASTER_URI, ROS_HOST_NAME 등 수정    
+- main.py : MESSAGE_MISSION_START의 "team_id" 수정    
+- main.py : (TODO) main 함수 내 참가팀 모델로부터 답안 생성 및 제출하는 부분 수정    
+
+#### 수정 금지 사항    
+- main.py : 미션 시작 메시지 전송을 위한 MissionStart 클래스 및 main 함수 내 호출 부분 수정 금지    
