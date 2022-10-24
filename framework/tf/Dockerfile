@@ -8,11 +8,11 @@ RUN apt-get install -y tzdata
 
 ENV HOME=/home/
 
-RUN mkdir -p ${HOME}/agc2022/data
+RUN mkdir -p ${HOME}/agc2022/dataset
 
 WORKDIR ${HOME}/agc2022
 
 COPY ./src .
-COPY ./template.json ${HOME}/agc2022/data
+COPY ./template.json ${HOME}/agc2022/dataset
 
 CMD ["python3","main.py"]

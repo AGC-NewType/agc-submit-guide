@@ -41,7 +41,7 @@ RUN apt-get install -y tzdata
 
 ENV HOME=/home/
 
-RUN mkdir -p ${HOME}/agc/data 
+RUN mkdir -p ${HOME}/agc/dataset
 
 WORKDIR ${HOME}/agc # 컨테이너 work dir 정의
 
@@ -64,7 +64,7 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
 > - 환경변수 단위의 API URL을 입력받기 위한 os package 사용, Request를 위한 urllib 패키지 사용        
 > - API 결과값 json dump 및 model inference 결과값 request 과정        
       
-환경변수 설정은 실행될 source code main.py 상단부에 작성해야합니다. 해당 예시는 [dev/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/dev/src/main.py), [framework/tf/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/framework/tf/src/main.py), [framework/torch/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/framework/torch/src/main.py)에서 확인할 수 있습니다. 또한, data_path는 '/home/agc2022/data'로 작성합니다.    
+환경변수 설정은 실행될 source code main.py 상단부에 작성해야합니다. 해당 예시는 [dev/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/dev/src/main.py), [framework/tf/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/framework/tf/src/main.py), [framework/torch/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/framework/torch/src/main.py)에서 확인할 수 있습니다. 또한, data_path는 '/home/agc2022/dataset' 으로 작성합니다.    
     
 - python 환경변수 로드 예시     
 ```python    
