@@ -183,7 +183,7 @@ docker save -o [참가자ID.tar] [빌드한 이미지 이름(태그포함)]
     ├── main.py
     ├── requirements.txt
     ├── ros_entrypoint.sh
-    └── user_command.bash
+    └── user_command.sh
 ```
 
 #### 수정 필요 사항    
