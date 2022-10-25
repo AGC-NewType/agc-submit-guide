@@ -32,8 +32,8 @@ WORKDIR /
 COPY ./src/main.py .
 COPY ./src/requirements.txt .
 
-COPY ./src/user_command.bash .
-RUN chmod a+x /user_command.bash
+COPY ./src/user_command.sh .
+RUN chmod a+x /user_command.sh
 
 ENTRYPOINT [ "/ros_entrypoint.sh" ]
 CMD ["/bin/bash"]
