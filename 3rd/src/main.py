@@ -42,6 +42,8 @@ class MissionStart:
                 if "OK" in status:
                     print("Complete send : Mission Start!!")
                     mission_trigger=False
+                else if "ERROR" in status:
+                    raise ValueError("Receive ERROR status. Please check your source code.")
 
 def main():
     data_path = r'/home/agc2022/dataset/'
@@ -77,9 +79,11 @@ def main():
 
     if "OK" in status:
         print("Complete send : Answersheet!!")
+    else if "ERROR" in status:      
+        raise ValueError("Receive ERROR status. Please check your source code.")
+        
     while not rospy.is_shutdown():
         rospy.spin()
-
 
 if __name__ == "__main__":
     main()
