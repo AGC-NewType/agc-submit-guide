@@ -44,11 +44,13 @@ def main():
         resp = request.urlopen(req)
         
         # check POST result
-        status = resp.read().decode('utf8')
-        if "OK" in status:
-            print("batch : "+str(batch+1)+"'s result requests successful!!")
-        else if "ERROR" in status:
-            raise ValueError("Receive ERROR status. Please check your source code.")
+        status = eval(resp.read().decode('utf8'))
+        print("received message: "+status['msg'])
+
+        if "OK" == status['result']:
+            print("data requests successful!!")
+        elif "ERROR" == status['result']:    
+            raise ValueError("Receive ERROR status. Please check your source code.")    
 
     # request end of mission message
     message_structure = {
@@ -62,6 +64,13 @@ def main():
     request_message = request.Request(api_url, data=tmp_message) 
     resp = request.urlopen(request_message) # POST
 
+    status = eval(resp.read().decode('utf8'))
+    print("received message: "+status['msg'])
+
+    if "OK" == status['result']:
+        print("data requests successful!!")
+    elif "ERROR" == status['result']:    
+        raise ValueError("Receive ERROR status. Please check your source code.")    
     
 if __name__ == "__main__":
     main()

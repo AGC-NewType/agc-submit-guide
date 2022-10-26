@@ -38,12 +38,13 @@ class MissionStart:
                 data_mission = json.dumps(MESSAGE_MISSION_START).encode('utf8')
                 req = request.Request(MISSION_API_URL, data=data_mission)
                 resp = request.urlopen(req)
-                status = resp.read().decode('utf8')
-                if "OK" in status:
-                    print("Complete send : Mission Start!!")
-                    mission_trigger=False
-                else if "ERROR" in status:
-                    raise ValueError("Receive ERROR status. Please check your source code.")
+                status = eval(resp.read().decode('utf8'))
+                print("received message: "+status['msg'])
+
+                if "OK" == status['result']:
+                    print("data requests successful!!")
+                elif "ERROR" == status['result']:    
+                    raise ValueError("Receive ERROR status. Please check your source code.")    
 
 def main():
     data_path = r'/home/agc2022/dataset/'
@@ -75,12 +76,13 @@ def main():
 
     # check API server return
     resp = request.urlopen(req)
-    status = resp.read().decode('utf8')    
+    status = eval(resp.read().decode('utf8'))
+    print("received message: "+status['msg'])
 
-    if "OK" in status:
-        print("Complete send : Answersheet!!")
-    else if "ERROR" in status:      
-        raise ValueError("Receive ERROR status. Please check your source code.")
+    if "OK" == status['result']:
+        print("data requests successful!!")
+    elif "ERROR" == status['result']:    
+        raise ValueError("Receive ERROR status. Please check your source code.")    
         
     while not rospy.is_shutdown():
         rospy.spin()

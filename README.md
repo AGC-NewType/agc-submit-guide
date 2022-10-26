@@ -131,11 +131,13 @@ API POST 과정에는 두가지 유의사항이 존재합니다.
         resp = request.urlopen(req)
         
         # check POST result
-        status = resp.read().decode('utf8')
-        if "OK" in status:
-            print("batch : "+str(batch+1)+"'s result requests successful!!")
-        else if "ERROR" in status:
-            raise ValueError("Receive ERROR status. Please check your source code.")
+        status = eval(resp.read().decode('utf8'))
+        print("received message: "+status['msg'])
+
+        if "OK" == status['result']:
+            print("data requests successful!!")
+        elif "ERROR" == status['result']:    
+            raise ValueError("Receive ERROR status. Please check your source code.")    
 
 ```     
 ### 참가자 유의사항
@@ -156,8 +158,10 @@ ex)
 
 
 1. 답안 제출 응답 관련
-위 예제 코드와 같이 답안 제출 시, 참가자는 답안 제출 요청에 대한 응답으로 'ERROR'를 수신 하여 오류를 발생 시킴으로 평가 플랫폼에서 오류 메시지(답안 제출 상태)를 확인할 수 있습니다.    
-※ 단, 위 과정은 1회의 추론 횟수가 소모되는 것으로 참가팀 환경에서 충분히 테스트 후 평가 플랫폼에서 진행해 주세요.    
+위 예제 코드와 같이 답안 제출 시, 참가자는 답안 제출 요청에 대한 응답으로 'ERROR'를 수신 하여 오류를 발생 시킴으로 평가 플랫폼에서 오류 메시지(답안 제출 상태)를 확인할 수 있습니다.     
+
+<span style="color: red">※ 단, 위 과정은 1회의 추론 횟수가 소모되는 것으로 참가팀 환경에서 충분히 테스트 후 평가 플랫폼에서 진행해 주세요.</span>    
+
 
 2. 도커 이미지 실행 및 오류 메시지 확인 관련    
 참가자가 제출한 도커 이미지는 평가 플랫폼 내의 데이터 셋 마운트, 답안 제출 환경 변수 추가 등 진행에 필요한 내용 추가를 제외하고 그대로 실행됩니다.    

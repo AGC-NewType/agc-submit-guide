@@ -43,6 +43,14 @@ def main():
     tmp_message = json.dumps(message_structure).encode('unicode-escape')
     request_message = request.Request(api_url, data=tmp_message) 
     resp = request.urlopen(request_message) # POST
+
+    status = eval(resp.read().decode('utf8'))
+    print("received message: "+status['msg'])
+
+    if "OK" == status['result']:
+        print("data requests successful!!")
+    elif "ERROR" == status['result']:    
+        raise ValueError("Receive ERROR status. Please check your source code.")    
     
 if __name__ == "__main__":
     main()
