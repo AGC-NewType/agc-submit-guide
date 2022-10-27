@@ -39,7 +39,7 @@ def inference(model, inference_data, device, url):
 
 
             # apply unicode to str json data
-            data = json.dumps(template).encode('unicode-escape')
+            data = json.dumps(template).encode('utf-8')
             
             # request ready
             req =  request.Request(url, data=data)
@@ -48,10 +48,10 @@ def inference(model, inference_data, device, url):
             resp = request.urlopen(req)
             
             # # check POST result
-            status = eval(resp.read().decode('utf8'))
+            status = eval(resp.read().decode('utf-8'))
             print("received message: "+status['msg'])
 
-            if "OK" == status['result']:
+            if "OK" == status['status']:
                 print("data requests successful!!")
-            elif "ERROR" == status['result']:    
+            elif "ERROR" == status['status']:    
                 raise ValueError("Receive ERROR status. Please check your source code.")    

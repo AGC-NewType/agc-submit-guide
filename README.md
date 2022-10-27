@@ -95,8 +95,8 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
 }
 ```    
 API POST 과정에는 두가지 유의사항이 존재합니다.    
->- json dump 과정에서 'unicode-escape'로 encoding 형식을 지정합니다.     
->- 제출 성공 여부를 판별하기 위해 request return값을 출력하는 부분에서는 unicode를 UTF-8로 디코딩을 통해 python으로 출력이 되도록 코드를 작성합니다.     
+>- json dump 과정에서 'utf-8'로 encoding 형식을 지정합니다.     
+>- REST API로의 답안 제출 후, 응답 메시지를 확인할 수 있으며 이 또한 utf8로 디코딩하여 메시지를 확인하실 수 있습니다.     
      
 하단의 예시는 tensorflow기반 MNIST inference 예제 입니다. 본 예시에서는 batch를 1로 설정하여 이미지당 답안을 POST하도록 작성했습니다. 관련 내용은 [framework/tf/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/tf/src/main.py), [framework/torch/src/inference.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/torch/src/inference.py)에서 확인할 수 있습니다.    
 
@@ -122,7 +122,7 @@ API POST 과정에는 두가지 유의사항이 존재합니다.
         template['answer_sheet'] = tmp_answer
         
         # apply unicode to str json data
-        data = json.dumps(template).encode('unicode-escape')
+        data = json.dumps(template).encode('utf-8')
 
         # request ready
         req =  request.Request(api_url, data=data)
@@ -134,9 +134,9 @@ API POST 과정에는 두가지 유의사항이 존재합니다.
         status = eval(resp.read().decode('utf8'))
         print("received message: "+status['msg'])
 
-        if "OK" == status['result']:
+        if "OK" == status['status']:
             print("data requests successful!!")
-        elif "ERROR" == status['result']:    
+        elif "ERROR" == status['status']:    
             raise ValueError("Receive ERROR status. Please check your source code.")    
 
 ```     

@@ -35,7 +35,7 @@ def main():
         template['answer_sheet'] = tmp_answer
         
         # apply unicode to str json data
-        data = json.dumps(template).encode('unicode-escape')
+        data = json.dumps(template).encode('utf-8')
 
         # request ready
         req =  request.Request(api_url, data=data)
@@ -44,12 +44,12 @@ def main():
         resp = request.urlopen(req)
         
         # check POST result
-        status = eval(resp.read().decode('utf8'))
+        status = eval(resp.read().decode('utf-8'))
         print("received message: "+status['msg'])
 
-        if "OK" == status['result']:
+        if "OK" == status['status']:
             print("data requests successful!!")
-        elif "ERROR" == status['result']:    
+        elif "ERROR" == status['status']:    
             raise ValueError("Receive ERROR status. Please check your source code.")    
 
     # request end of mission message
@@ -60,16 +60,16 @@ def main():
     }
 
     # json dump & encode unicode
-    tmp_message = json.dumps(message_structure).encode('unicode-escape')
+    tmp_message = json.dumps(message_structure).encode('utf-8')
     request_message = request.Request(api_url, data=tmp_message) 
     resp = request.urlopen(request_message) # POST
 
-    status = eval(resp.read().decode('utf8'))
+    status = eval(resp.read().decode('utf-8'))
     print("received message: "+status['msg'])
 
-    if "OK" == status['result']:
+    if "OK" == status['status']:
         print("data requests successful!!")
-    elif "ERROR" == status['result']:    
+    elif "ERROR" == status['status']:    
         raise ValueError("Receive ERROR status. Please check your source code.")    
     
 if __name__ == "__main__":

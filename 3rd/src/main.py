@@ -35,15 +35,15 @@ class MissionStart:
         if mission_trigger==True:
             if self.armed_state == True and self.pose_z > 0.5:
                 print("Take-Off and Mission Start!")
-                data_mission = json.dumps(MESSAGE_MISSION_START).encode('utf8')
+                data_mission = json.dumps(MESSAGE_MISSION_START).encode('utf-8')
                 req = request.Request(MISSION_API_URL, data=data_mission)
                 resp = request.urlopen(req)
-                status = eval(resp.read().decode('utf8'))
+                status = eval(resp.read().decode('utf-8'))
                 print("received message: "+status['msg'])
 
-                if "OK" == status['result']:
+                if "OK" == status['status']:
                     print("data requests successful!!")
-                elif "ERROR" == status['result']:    
+                elif "ERROR" == status['status']:    
                     raise ValueError("Receive ERROR status. Please check your source code.")    
 
 def main():
@@ -71,17 +71,17 @@ def main():
     }
     
     # post to API server
-    data = json.dumps(temp).encode('unicode-escape')
+    data = json.dumps(temp).encode('utf-8')
     req =  request.Request(ANSWER_API_URL, data=data)
 
     # check API server return
     resp = request.urlopen(req)
-    status = eval(resp.read().decode('utf8'))
+    status = eval(resp.read().decode('utf-8'))
     print("received message: "+status['msg'])
 
-    if "OK" == status['result']:
+    if "OK" == status['status']:
         print("data requests successful!!")
-    elif "ERROR" == status['result']:    
+    elif "ERROR" == status['status']:    
         raise ValueError("Receive ERROR status. Please check your source code.")    
         
     while not rospy.is_shutdown():
