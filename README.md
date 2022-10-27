@@ -131,12 +131,12 @@ API POST 과정에는 두가지 유의사항이 존재합니다.
         resp = request.urlopen(req)
         
         # check POST result
-        status = eval(resp.read().decode('utf8'))
-        print("received message: "+status['msg'])
+        resp_json = eval(resp.read().decode('utf8'))
+        print("received message: "+resp_json['msg'])
 
-        if "OK" == status['status']:
+        if "OK" == resp_json['status']:
             print("data requests successful!!")
-        elif "ERROR" == status['status']:    
+        elif "ERROR" == resp_json['status']:    
             raise ValueError("Receive ERROR status. Please check your source code.")    
 
 ```     

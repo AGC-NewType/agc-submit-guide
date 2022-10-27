@@ -26,12 +26,12 @@ req =  request.Request(api_url, data=data)
 
 # check API server return
 resp = request.urlopen(req)
-status = eval(resp.read().decode('utf-8'))
-print("received message: "+status['msg'])
+resp_json = eval(resp.read().decode('utf-8'))
+print("received message: "+resp_json['msg'])
 
-if "OK" == status['status']:
+if "OK" == resp_json['status']:
     print("data requests successful!!")
-elif "ERROR" == status['status']:    
+elif "ERROR" == resp_json['status']:    
     raise ValueError("Receive ERROR status. Please check your source code.")    
     
 # request end of mission message
@@ -46,10 +46,10 @@ tmp_message = json.dumps(message_structure).encode('utf-8')
 request_message = request.Request(api_url, data=tmp_message) 
 resp = request.urlopen(request_message) # POST
 
-status = eval(resp.read().decode('utf-8'))
-print("received message: "+status['msg'])
+resp_json = eval(resp.read().decode('utf-8'))
+print("received message: "+resp_json['msg'])
 
-if "OK" == status['status']:
+if "OK" == resp_json['status']:
     print("data requests successful!!")
-elif "ERROR" == status['status']:    
+elif "ERROR" == resp_json['status']:    
     raise ValueError("Receive ERROR status. Please check your source code.")    
