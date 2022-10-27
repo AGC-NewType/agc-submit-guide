@@ -41,7 +41,7 @@ message_structure = {
 "end_of_mission": "true"
 }
 
-# json dump & encode unicode
+# json dump & encode utf-8
 tmp_message = json.dumps(message_structure).encode('utf-8')
 request_message = request.Request(api_url, data=tmp_message) 
 resp = request.urlopen(request_message) # POST

@@ -38,7 +38,7 @@ def inference(model, inference_data, device, url):
             template['answer_sheet'] = tmp_answer
 
 
-            # apply unicode to str json data
+            # apply utf-8 to str json data
             data = json.dumps(template).encode('utf-8')
             
             # request ready

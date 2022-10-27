@@ -121,7 +121,7 @@ API POST 과정에는 두가지 유의사항이 존재합니다.
         tmp_answer = {"no":str(batch+1), "answer" : str(batch_label[0])}
         template['answer_sheet'] = tmp_answer
         
-        # apply unicode to str json data
+        # apply utf-8 to str json data
         data = json.dumps(template).encode('utf-8')
 
         # request ready

@@ -34,7 +34,7 @@ def main():
         tmp_answer = {"no":str(batch+1), "answer" : str(batch_label[0])}
         template['answer_sheet'] = tmp_answer
         
-        # apply unicode to str json data
+        # apply utf-8 to str json data
         data = json.dumps(template).encode('utf-8')
 
         # request ready
@@ -59,7 +59,7 @@ def main():
     "end_of_mission": "true"
     }
 
-    # json dump & encode unicode
+    # json dump & encode utf-8
     tmp_message = json.dumps(message_structure).encode('utf-8')
     request_message = request.Request(api_url, data=tmp_message) 
     resp = request.urlopen(request_message) # POST
