@@ -30,8 +30,8 @@ COPY main.py .
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
-COPY user_command.bash .
-RUN chmod a+x /user_command.bash
+COPY user_command.sh .
+RUN chmod a+x /user_command.sh
 
 ENTRYPOINT [ "/ros_entrypoint.sh" ]
 CMD ["/bin/bash"]
