@@ -201,9 +201,9 @@ docker save -o [참가자ID.tar] [빌드한 이미지 이름(태그포함)]
 ```
 
 #### 수정 필요 사항    
-- Dockerfile : ROS_MASTER_URI, ROS_HOST_NAME 등 수정    
-- main.py : MESSAGE_MISSION_START의 "team_id" 수정    
-- main.py : (TODO) main 함수 내 참가팀 모델로부터 답안 생성 및 제출하는 부분 수정    
+- [Dockerfile](https://github.com/agc2022-new/agc-submit-guide/blob/main/3rd/Dockerfile) : ROS_MASTER_URI, ROS_HOST_NAME 등 수정    
+- [main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/3rd/src/main.py) : MESSAGE_MISSION_START의 "team_id" 수정    
+- [main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/3rd/src/main.py) : (TODO) main 함수 내 참가팀 모델로부터 답안 생성 및 제출하는 부분 수정    
 
 #### 수정 금지 사항    
-- main.py : 미션 시작 메시지 전송을 위한 MissionStart 클래스 및 main 함수 내 호출 부분 수정 금지    
+- [main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/3rd/src/main.py) : 미션 시작 메시지 전송을 위한 MissionStart 클래스 및 main 함수 내 호출 부분 수정 금지    
