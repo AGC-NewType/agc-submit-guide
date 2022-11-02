@@ -5,6 +5,7 @@ from urllib import request
 
 # REST URL load
 api_url = os.environ['REST_ANSWER_URL']
+data_path = '/home/agc2022/dataset/'
 
 # answer template
 json_data = {
