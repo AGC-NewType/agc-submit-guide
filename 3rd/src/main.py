@@ -37,7 +37,7 @@ class MissionStart:
         while counter_z < 20:
             if self.pose_z > 0.5:
                 counter_z+=1
-                time.sleep(0.2)
+                time.sleep(0.1)
                 
     def mission_start(self):
         global mission_trigger
