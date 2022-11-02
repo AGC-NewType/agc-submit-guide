@@ -48,9 +48,9 @@ RUN apt-get install -y tzdata
 
 ENV HOME=/home/
 
-RUN mkdir -p ${HOME}/agc/dataset
+RUN mkdir -p ${HOME}/agc2022/dataset
 
-WORKDIR ${HOME}/agc # 컨테이너 work dir 정의
+WORKDIR ${HOME}/agc2022 # 컨테이너 work dir 정의
 
 COPY ./src . # src 폴더의 소스코드를 도커 컨테이너로 복사
 
