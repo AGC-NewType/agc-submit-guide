@@ -135,7 +135,7 @@ end of mission은 채점서버에 답안지 제출이 끝남을 알리는 messag
 'end of mission' POST 형식은 다음과 같습니다.    
 
 ```json
-    message_structure = {
+    {
     "team_id": "userxx",
     "hash": "!@#$%^&*()",
     "end_of_mission": "true"
