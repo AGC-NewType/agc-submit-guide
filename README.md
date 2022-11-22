@@ -264,6 +264,7 @@ docker save -o [참가자ID.tar] [빌드한 이미지 이름(태그포함)]
 기존 답안지 템플릿에서 몇 가지 변경점이 존재합니다. 변경점은 다음과 같습니다.    
 1. 'secret' -> 'hash' key 값 수정     
 2. 'problem_no', 'task_no' key 추가 (문제지 제공)    
+3. 유형별 답안 템플릿 변경    
 
 - 기존 답안 템플릿
 ```json
@@ -280,6 +281,7 @@ docker save -o [참가자ID.tar] [빌드한 이미지 이름(태그포함)]
 
 - 변경 답안 템플릿
 ```json
+# case1
 {
    "team_id": "userxx",
    "hash": "!@#$%^&*()",
@@ -287,15 +289,48 @@ docker save -o [참가자ID.tar] [빌드한 이미지 이름(태그포함)]
    "task_no": "1",
    "answer": []
 }
+
+# case2
+{
+   "team_id": "userxx",
+   "hash": "!@#$%^&*()",
+   "problem_no": "002",
+   "task_no": "2",
+   "answer": []
+}
+
+# case3
+{
+   "team_id": "userxx",
+   "hash": "!@#$%^&*()",
+   "problem_no": "003",
+   "task_no": "3",
+   "answer": ""
+}
+
+# case4
+{
+   "team_id": "userxx",
+   "hash": "!@#$%^&*()",
+   "problem_no": "004",
+    "task_no": "4",
+    "answer": "",
+    "evidence": []
+}
 ```    
     
  > 'problem_no', 'task_no'의 경우 신규 대회에서 제공하는 문제지에 해당 key에 맞는 value를 기입해주시면 됩니다.    
  > 'problem_no'의 경우 3자리 숫자로 구성된 string이며, 'task_no'의 경우 문제지에 반영된 숫자를 기입하시면 됩니다.        
- 
+ > 유형별로 'answer'의 스키마에 대한 차이가 존재합니다. 스키마는 다음과 같습니다.    
+ 1. 유형 1 : list     
+ 2. 유형 2 : list     
+ 3. 유형 3 : string     
+ 4. 유형 4 : string     
+ > 유형 4의 evidence는 세부문제 정의서에 정의된 부분이 추가되었습니다. 이 점 참고하시기 바랍니다.    
 
  ### end of mission 템플릿 key 값 변경점    
      
-기존 end of mission 템플릿에서 'secret' key 값이 'hash'로 변경되었습니다.     
+기존 end of mission 템플릿에서 'secret' key 값이 'hash'로 변경되었습니다.     변경된 template을 참고하여 제출해주시기 바랍니다.    
      
 
  - 기존 end of mission 템플릿
@@ -316,4 +351,4 @@ docker save -o [참가자ID.tar] [빌드한 이미지 이름(태그포함)]
 }
 ```
 
- 변경된 template에 맞게 제출해주시기 바랍니다.    
+ 
