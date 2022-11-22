@@ -19,8 +19,10 @@ def inference(model, inference_data, device, url):
             template = {
                 "team_id": "userxx",
                 "secret": "!@#$%^&*()",
-                "answer_sheet": {}
-            }
+                "answer_sheet": {},
+                "problem_no": "001",
+                "task_no": str(batch)            
+                }
                 
             # attach device to tensor
             img=img.to(device)

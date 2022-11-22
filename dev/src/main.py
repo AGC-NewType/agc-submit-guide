@@ -10,8 +10,10 @@ data_path = '/home/agc2022/dataset/'
 # answer template
 json_data = {
     "team_id": "userxx",
-    "secret": "!@#$%^&*()",
-    "answer_sheet": {}
+    "hash": "!@#$%^&*()",
+    "answer_sheet": {},
+    "problem_no": "001",
+    "task_no": "1",
 }    
     
 # input sample data to template
@@ -38,7 +40,7 @@ elif "ERROR" == resp_json['status']:
 # request end of mission message
 message_structure = {
 "team_id": "userxx",
-"secret": "!@#$%^&*()",
+"hash": "!@#$%^&*()",
 "end_of_mission": "true"
 }
 

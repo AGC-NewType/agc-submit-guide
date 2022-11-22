@@ -35,7 +35,7 @@ def main():
     # request end of mission message
     message_structure = {
     "team_id": "userxx",
-    "secret": "!@#$%^&*()",
+    "hash": "!@#$%^&*()",
     "end_of_mission": "true"
     }
 

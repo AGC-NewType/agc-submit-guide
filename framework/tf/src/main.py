@@ -22,8 +22,10 @@ def main():
         # define answer template per batch
         template = {
             "team_id": "userxx",
-            "secret": "!@#$%^&*()",
-            "answer_sheet": {}
+            "hash": "!@#$%^&*()",
+            "answer_sheet": {},
+            "problem_no": "001",
+            "task_no": str(batch)
         }
                 
         # get inference result 
@@ -55,7 +57,7 @@ def main():
     # request end of mission message
     message_structure = {
     "team_id": "userxx",
-    "secret": "!@#$%^&*()",
+    "hash": "!@#$%^&*()",
     "end_of_mission": "true"
     }
 
