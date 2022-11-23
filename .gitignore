@@ -1,7 +1,0 @@
-.DS_Store
-RESTHOST
-.gitignore
-mnist_inference.zip
-mnist_inference
-restapi.yaml
-training
