@@ -11,7 +11,7 @@ data_path = '/home/agc2022/dataset/'
 json_data = {
     "team_id": "userxx",
     "hash": "!@#$%^&*()",
-    "answer_sheet": {},
+    "answer": {},
     "problem_no": "001",
     "task_no": "1",
 }    
@@ -21,7 +21,7 @@ temp = {
         "no": "1", 
         "answer": "20"
 }
-json_data['answer_sheet'] = temp
+json_data['answer'] = temp
 
 # post to API server
 data = json.dumps(temp).encode('utf-8')
