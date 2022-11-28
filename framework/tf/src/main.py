@@ -23,7 +23,7 @@ def main():
         template = {
             "team_id": "userxx",
             "hash": "!@#$%^&*()",
-            "answer_sheet": {},
+            "answer": {},
             "problem_no": "001",
             "task_no": str(batch)
         }
@@ -34,7 +34,7 @@ def main():
         # extract label from inference output
         batch_label = [int(np.argmax(sample)) for sample in output]
         tmp_answer = {"no":str(batch+1), "answer" : str(batch_label[0])}
-        template['answer_sheet'] = tmp_answer
+        template['answer'] = tmp_answer
         
         # apply utf-8 to str json data
         data = json.dumps(template).encode('utf-8')
