@@ -28,14 +28,14 @@
 
 --------------------------------------------------------    
     
-본 가이드 페이지에서 제공하는 도커 이미지 빌드를 위한 과정은 다음 3가지로 분류 됩니다.      
+본 가이드 페이지는 아래 3가지 항목으로 구분하여 도커 이미지 빌드 과정을 안내합니다.
 - [**1. 제출 파일**](#1-제출-파일도커-이미지-생성)
 - [**2. 추론코드 작성**](#2-추론코드-작성)
 - [**3. 도커 이미지 빌드 & 이미지 추출**](#3-도커-이미지-빌드--이미지-추출)
 
 ## 1. 제출 파일(도커 이미지) 생성   
 - 각 환경(tensorflow, pytorch)에 맞는 도커 이미지 예시를 폴더별로 작성했습니다.    
-- 도커 이미지 빌드를 위한 도커 파일의 이름은 ```Dockerfile``` 로 작성합니다. (recomended).
+- 도커 이미지 빌드를 위한 도커 파일 이름은 ```Dockerfile``` 로 작성합니다. (recomended).
 - 기본적인 도커파일 내부구조는 다음과 같습니다.    
     
 ```dockerfile    
@@ -71,7 +71,7 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
       
 > - 환경변수 단위의 API URL을 입력받기 위한 os package 사용, Request를 위한 urllib 패키지 사용        
 > - API 결과값 json dump 및 model inference 결과값 request 과정        
-> - 최종 제출 상태를 의미하는 'end of mission' message POST
+> - 추론 모델 수행 종료 및 채점 요청을 위한 'end of mission' message POST
       
 환경변수 설정은 실행될 source code main.py 상단부에 작성해야합니다. 해당 예시는 [dev/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/dev/src/main.py), [framework/tf/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/framework/tf/src/main.py), [framework/torch/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/framework/torch/src/main.py)에서 확인할 수 있습니다. 또한, data_path는 `'/home/agc2022/dataset'` 으로 작성합니다.    
     
@@ -81,11 +81,11 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
     url = os.environ['REST_ANSWER_URL']    
     data_path = '/home/agc2022/dataset'     
  ```     
-- REST API 수신 주소는 추론코드가 구동되는 평가 플랫폼에 환경 변수('REST_ANSWER_URL')로 정의되어 있습니다.     
+- REST API 수신 주소는 추론코드가 구동되는 평가 플랫폼에 환경 변수('REST_ANSWER_URL')로 정의되어 있으며, 챌린저께서는 코드 내에서 위 환경 변수 값을 읽어와 사용하시면 됩니다.
     
-추론 과정에서 답안 제출은 REST API를 활용하여 온라인 평가 플랫폼에 전송합니다. 제출은 batch 단위로 진행해야하며, 세부문제정의서에서 언급한 메시지 구조를 따라야합니다. 다음 예시는 유형별 답안제출 예시 json 입니다. 유형별 제출 방식에 차이가 존재하므로 참가자분들께서는 참고하시기 바랍니다. (상세 메시지 구조 등은 세부문제정의서 참조)     
+추론 과정에서 생성되는 답안 제출은 REST API를 활용하여 온라인 평가 플랫폼 내 채점서버로 전송합니다. 제출은 batch 단위로 진행해야하며, 반드시 세부문제정의서에서 언급한 메시지 구조를 따라야합니다. 다음 예시는 유형별 답안제출 예시 json 입니다. 유형별 제출 방식에 차이가 존재하므로 참가자분들께서는 참고하시기 바랍니다. (상세 메시지 구조 등은 세부문제정의서 참조)     
 - **batch단위 답안 제출 예시**
-- **"userxx"** 는 이해를 돕기 위한 예시입니다. 부여받은 유저 번호를 기입해주시기 바랍니다.
+- **"userxx"** 와 **"hash"** 값은 이해를 돕기 위한 예시입니다. 각 팀 단위 id(team_id)와 hash 값을 기입해 주세요. (팀명이 아닌, 팀ID 입니다.)
 ```json
 # 유형 1 답안 제출 예시:
 {
@@ -219,11 +219,10 @@ ex)
     }
 ```
 
-
-제출파일에서 다음과 같은 사항에서 오류가 발생할 수 있습니다.
-- json 형식이 올바르지 않은 경우
-- team_id 및 secret이 올바르지 않은 경우
-- json 내 key-value가 올바르지 않은 경우
+ERROR 메시지(msg)의 예는 다음과 같습니다.
+- json 포맷이 아닌 다른 형식(혹은 잘못된 형식)의 답안을 제출 했을 때 ("Please check answer format (key-value).")
+- 챌린저의 id 값이 올바르지 않을 때 ("team_id is invalid. Please check your team_id filed.")
+- 챌린저의 hash 값이 올바르지 않을 때 ("Hash value is invalid")
 
 
 1. 답안 제출 응답 관련
@@ -237,7 +236,7 @@ ex)
 추론 오류 시 확인하실 수 있는 오류 메시지는 실제 코드가 수행 된 이후 발생한 오류 메시지만 확인 가능하며, 참가자가 직접 작성한 쉘 스크립트 수행 과정 등 코드 외 오류들은 확인이 어렵습니다. 이 또한 참가팀 환경에서 충분히 테스트 후 평가 플랫폼에서 진행 부탁드립니다.    
 
 3. end of mission 메세지 미제출 관련    
-**답안지를 모두 보낸 후에는 반드시 'end of mission' 메세지를 POST 해야합니다. 해당 메세지가 제출되지 않을 경우 추론이 정상적으로 이뤄지지 않습니다. 이 점 유의 부탁드립니다.**
+**답안지를 모두 보낸 후에는 반드시 'end of mission' 메세지를 POST 해야합니다. 해당 메세지가 제출되지 않을 경우, 답안이 제출되었어도, 추론 종료 후 채점이 진행되지 않습니다. 이 점 유의 부탁드립니다.**
 ------------
                
 ## 3. 도커 이미지 빌드 & 이미지 추출        
