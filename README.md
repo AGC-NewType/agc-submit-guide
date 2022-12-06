@@ -40,7 +40,10 @@
     
 ```dockerfile    
 # dockerfile template   
-FROM {base로 사용할 이미지}   
+# ex) pytorch 사용시 : FROM pytorch/pytorch:1.12.1-cuda11.3-cudnn8-runtime
+#     tensorflow 사용시 : FROM tensorflow/tensorflow:latest-gpu
+#     ubuntu 사용시 : FROM ubuntu:18.04
+FROM {base로 사용할 이미지}    
 
 # 한국 시간대 설정
 ARG DEBIAN_FRONTEND=noninteractive
@@ -57,7 +60,7 @@ COPY ./src . # src 폴더의 소스코드를 도커 컨테이너로 복사
 
 CMD ["python3","main.py"] # 실행할 main.py 코드.
 ```    
-
+- 사용할 이미지는 참가자분들께서 구현하려는 환경에 맞는 이미지를 사용하시기를 권장드립니다.
 - 본 예시는 /src 폴더와 Dockerfile이 동일한 디렉토리에 있는 경우의 빌드과정을 나타냅니다.    
 - 소스코드가 저장된 디렉토리 이름이 ```/src```가 아닐 경우 ```dockerfile```에서 복사할 폴더이름과 해당폴더 이름을 동일하게 맞춰주면 됩니다.     
 - 마지막 CMD 명령어에는 실행될 python 파일명이 포함되어야 합니다. 그렇지 않을 경우, 평가 플랫폼에서의 구동이 제한됩니다.         
