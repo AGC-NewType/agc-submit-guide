@@ -13,6 +13,5 @@ RUN mkdir -p ${HOME}/agc2022/dataset
 WORKDIR ${HOME}/agc2022
 
 COPY ./src .
-COPY ./template.json ${HOME}/agc2022/dataset
 
 CMD ["python3","main.py"]
