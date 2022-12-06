@@ -64,7 +64,8 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
 - 본 예시는 /src 폴더와 Dockerfile이 동일한 디렉토리에 있는 경우의 빌드과정을 나타냅니다.    
 - 소스코드가 저장된 디렉토리 이름이 ```/src```가 아닐 경우 ```dockerfile```에서 복사할 폴더이름과 해당폴더 이름을 동일하게 맞춰주면 됩니다.     
 - 마지막 CMD 명령어에는 실행될 python 파일명이 포함되어야 합니다. 그렇지 않을 경우, 평가 플랫폼에서의 구동이 제한됩니다.         
-- public pytorch image를 사용할 경우 도커파일 내부 이미지 선언부 하단에 'RUN apt-get update'를 추가해야 timezone 관련 설정이 정상적으로 작동합니다.     
+- public pytorch image를 사용할 경우 도커파일 내부 이미지 선언부 하단에 `RUN apt-get update`를 추가해야 timezone 관련 설정이 정상적으로 작동합니다.     
+- 도커파일 작성 참고는 [dev/Dockerfile](https://github.com/agc2022-new/agc-submit-guide/blob/main/dev/Dockerfile), [framework/tf/Dockerfile](https://github.com/agc2022-new/agc-submit-guide/blob/main/framework/tf/Dockerfile), [framework/torch/Dockerfile](https://github.com/agc2022-new/agc-submit-guide/blob/main/framework/torch/Dockerfile) 의 예시를 참고해주시기 바랍니다.
     
 ----------    
     
