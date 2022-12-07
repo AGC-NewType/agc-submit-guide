@@ -19,7 +19,7 @@ def inference(model, inference_data, device, url):
             template = {
                 "team_id": "userxx",
                 "hash": "!@#$%^&*()",
-                "answer_sheet": {},
+                "answer": {},
                 "problem_no": "001",
                 "task_no": str(batch)            
                 }
@@ -35,9 +35,9 @@ def inference(model, inference_data, device, url):
             probability, argmax = torch.max(output, 1)
             batch_label = argmax.tolist()
 
-            # define tmp_answer for append to json_data['answer_sheet']:dict
+            # define tmp_answer for append to json_data['answer']:dict
             tmp_answer = {"no":str(batch+1), "answer" : str(batch_label[0])}
-            template['answer_sheet'] = tmp_answer
+            template['answer'] = tmp_answer
 
 
             # apply utf-8 to str json data
