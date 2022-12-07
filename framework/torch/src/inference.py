@@ -56,4 +56,5 @@ def inference(model, inference_data, device, url):
             if "OK" == resp_json['status']:
                 print("data requests successful!!")
             elif "ERROR" == resp_json['status']:    
-                raise ValueError("Receive ERROR status. Please check your source code.")    
+                received_message=resp_json['msg']
+                raise ValueError(received_message)  

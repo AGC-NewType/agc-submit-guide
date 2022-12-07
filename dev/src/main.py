@@ -4,7 +4,8 @@ import time
 from urllib import request
 
 # REST URL load
-api_url = os.environ['REST_ANSWER_URL']
+# api_url = os.environ['REST_ANSWER_URL']
+api_url = 'http://172.30.79.204:5000/test'
 data_path = '/home/agc2022/dataset/'
 
 # answer template
@@ -30,12 +31,12 @@ req =  request.Request(api_url, data=data)
 # check API server return
 resp = request.urlopen(req)
 resp_json = eval(resp.read().decode('utf-8'))
-print("received message: "+resp_json['msg'])
 
 if "OK" == resp_json['status']:
     print("data requests successful!!")
 elif "ERROR" == resp_json['status']:    
-    raise ValueError("Receive ERROR status. Please check your source code.")    
+    received_message=resp_json['msg']
+    raise ValueError(received_message)    
     
 # request end of mission message
 message_structure = {
@@ -50,9 +51,9 @@ request_message = request.Request(api_url, data=tmp_message)
 resp = request.urlopen(request_message) # POST
 
 resp_json = eval(resp.read().decode('utf-8'))
-print("received message: "+resp_json['msg'])
 
 if "OK" == resp_json['status']:
     print("data requests successful!!")
 elif "ERROR" == resp_json['status']:    
-    raise ValueError("Receive ERROR status. Please check your source code.")    
+    received_message=resp_json['msg']
+    raise ValueError(received_message)    

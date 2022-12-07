@@ -45,12 +45,12 @@ def main():
     resp = request.urlopen(request_message) # POST
 
     resp_json = eval(resp.read().decode('utf-8'))
-    print("received message: "+resp_json['msg'])
-
+    
     if "OK" == resp_json['status']:
         print("data requests successful!!")
     elif "ERROR" == resp_json['status']:    
-        raise ValueError("Receive ERROR status. Please check your source code.")    
+        received_message=resp_json['msg']
+        raise ValueError(received_message)  
     
 if __name__ == "__main__":
     main()
