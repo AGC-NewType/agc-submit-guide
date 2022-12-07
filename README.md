@@ -185,12 +185,12 @@ end of mission은 채점서버에 답안지 제출이 끝남을 알리는 messag
         
         # check POST result
         resp_json = eval(resp.read().decode('utf8'))
-        print("received message: "+resp_json['msg'])
 
         if "OK" == resp_json['status']:
             print("data requests successful!!")
         elif "ERROR" == resp_json['status']:    
-            raise ValueError("Receive ERROR status. Please check your source code.")    
+            received_message=resp_json['msg']
+            raise ValueError(received_message)  
     
     # request end of mission message
     message_structure = {
@@ -205,12 +205,11 @@ end of mission은 채점서버에 답안지 제출이 끝남을 알리는 messag
     resp = request.urlopen(request_message) # POST
 
     resp_json = eval(resp.read().decode('utf-8'))
-    print("received message: "+resp_json['msg'])
-
     if "OK" == resp_json['status']:
         print("data requests successful!!")
     elif "ERROR" == resp_json['status']:    
-        raise ValueError("Receive ERROR status. Please check your source code.") 
+        received_message=resp_json['msg']
+        raise ValueError(received_message)  
 
 ```     
 ### 참가자 유의사항
@@ -230,7 +229,9 @@ ERROR 메시지(msg)의 예는 다음과 같습니다.
 
 
 1. 답안 제출 응답 관련
-위 예제 코드와 같이 답안 제출 시, 참가자는 답안 제출 요청에 대한 응답으로 'ERROR'를 수신 하여 오류를 발생 시킴으로 평가 플랫폼에서 오류 메시지(답안 제출 상태)를 확인할 수 있습니다.     
+위 예제 코드와 같이 답안 제출 시, 참가자는 답안 제출 요청에 대한 응답으로 status와 해당하는 message를 수신 하여 정상 제출/오류를  판단하는 내용을 작성해야 합니다.     
+status가 'OK'일 경우 별도의 message를 return하지 않으며, `ERROR`의 message를 수신후 해당내용을 Error에 출력결과로 지정해야 추론 오류를 확인할 수 있습니다.    
+참가자분들께서는 제출 상태 판별 및 `ERROR`상태의 message를 raise하고자 하는 ERROR의 메세지로 출력 하도록 작성해주시기 바랍니다.
 
 <span style="color: red">※ 단, 위 과정은 1회의 추론 횟수가 소모되는 것으로 참가팀 환경에서 충분히 테스트 후 평가 플랫폼에서 진행해 주세요.</span>    
 
