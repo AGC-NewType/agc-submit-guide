@@ -82,7 +82,7 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
 - python 환경변수 로드 예시     
 ```python    
     # load environment variable
-    url = os.environ['REST_ANSWER_URL']    
+    api_url = os.environ['REST_ANSWER_URL']    
     data_path = '/home/agc2022/dataset'     
  ```     
 - REST API 수신 주소는 추론코드가 구동되는 평가 플랫폼에 환경 변수('REST_ANSWER_URL')로 정의되어 있으며, 챌린저께서는 코드 내에서 위 환경 변수 값을 읽어와 사용하시면 됩니다.
