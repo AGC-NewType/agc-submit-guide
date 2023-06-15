@@ -24,8 +24,9 @@
 
 - 참가자분들꼐서는 [**참가자 유의사항**](#참가자-유의사항)을 꼭 확인해주시기 바랍니다.
 
-- 신규 대회 관련 공지는 [**신규 대회 공지사항**](#신규-대회-관련-공지)을 참고해주시기 바랍니다.    
+- 신규 대회 관련 공지는 [**신규 대회 공지사항**](#신규-대회-공지사항)을 참고해주시기 바랍니다.    
 
+- 사용하시는 개발 환경이 Apple Slicon(M1,M2)칩을 사용중일경우 [**Apple Slicon 컴퓨터 빌드 관련 공지**](#apple-slicon-컴퓨터-빌드-관련-공지)를 참고하여 이미지를 빌드해주시기 바랍니다.
 --------------------------------------------------------    
     
 본 가이드 페이지는 아래 3가지 항목으로 구분하여 도커 이미지 빌드 과정을 안내합니다.
@@ -66,6 +67,28 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
 - 마지막 CMD 명령어에는 실행될 python 파일명이 포함되어야 합니다. 그렇지 않을 경우, 평가 플랫폼에서의 구동이 제한됩니다.         
 - public pytorch image를 사용할 경우 도커파일 내부 이미지 선언부 하단에 `RUN apt-get update`를 추가해야 timezone 관련 설정이 정상적으로 작동합니다.     
 - 도커파일 작성 참고는 [dev/Dockerfile](https://github.com/agc2022-new/agc-submit-guide/blob/main/dev/Dockerfile), [framework/tf/Dockerfile](https://github.com/agc2022-new/agc-submit-guide/blob/main/framework/tf/Dockerfile), [framework/torch/Dockerfile](https://github.com/agc2022-new/agc-submit-guide/blob/main/framework/torch/Dockerfile) 의 예시를 참고해주시기 바랍니다.
+
+### Apple Slicon 컴퓨터 빌드 관련 공지
+- Apple Slicon의 경우 Dockerfile의 이미지 로딩 부분에서 다음과 같이 작성해주시기 바랍니다.
+```dockerfile
+# --platform을 통한 크로스 플랫폼 빌드
+FROM --platform=linux/amd64 {base로 사용할 이미지}    
+
+# 한국 시간대 설정
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Asia/Seoul
+RUN apt-get install -y tzdata
+
+ENV HOME=/home/
+
+RUN mkdir -p ${HOME}/agc2022/dataset
+
+WORKDIR ${HOME}/agc2022 # 컨테이너 work dir 정의
+
+COPY ./src . # src 폴더의 소스코드를 도커 컨테이너로 복사
+
+CMD ["python3","main.py"] # 실행할 main.py 코드.
+```
     
 ----------    
     
