@@ -22,7 +22,7 @@
      
 - 작업된 소스코드는 `/src`에 넣어 빌드를 진행해 주세요. (본 예시에서는 학습한 모델이 저장된 폴더를 my_model로 작성하였습니다.)    
 
-- 참가자분들꼐서는 [**참가자 유의사항**](#참가자-유의사항)을 꼭 확인해주시기 바랍니다.
+- 참가자분들께서는 [**참가자 유의사항**](#참가자-유의사항)을 꼭 확인해주시기 바랍니다.
 
 - 신규 대회 관련 공지는 [**신규 대회 공지사항**](#신규-대회-공지사항)을 참고해주시기 바랍니다.    
 
@@ -53,9 +53,9 @@ RUN apt-get install -y tzdata
 
 ENV HOME=/home/
 
-RUN mkdir -p ${HOME}/agc2022/dataset
+RUN mkdir -p ${HOME}/agc/dataset
 
-WORKDIR ${HOME}/agc2022 # 컨테이너 work dir 정의
+WORKDIR ${HOME}/agc # 컨테이너 work dir 정의
 
 COPY ./src . # src 폴더의 소스코드를 도커 컨테이너로 복사
 
@@ -66,7 +66,7 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
 - 소스코드가 저장된 디렉토리 이름이 ```/src```가 아닐 경우 ```dockerfile```에서 복사할 폴더이름과 해당폴더 이름을 동일하게 맞춰주면 됩니다.     
 - 마지막 CMD 명령어에는 실행될 python 파일명이 포함되어야 합니다. 그렇지 않을 경우, 평가 플랫폼에서의 구동이 제한됩니다.         
 - public pytorch image를 사용할 경우 도커파일 내부 이미지 선언부 하단에 `RUN apt-get update`를 추가해야 timezone 관련 설정이 정상적으로 작동합니다.     
-- 도커파일 작성 참고는 [dev/Dockerfile](https://github.com/agc2022-new/agc-submit-guide/blob/main/dev/Dockerfile), [framework/tf/Dockerfile](https://github.com/agc2022-new/agc-submit-guide/blob/main/framework/tf/Dockerfile), [framework/torch/Dockerfile](https://github.com/agc2022-new/agc-submit-guide/blob/main/framework/torch/Dockerfile) 의 예시를 참고해주시기 바랍니다.
+- 도커파일 작성 참고는 [dev/Dockerfile](https://github.com/AGC-NewType/agc-submit-guide/blob/main/dev/Dockerfile), [framework/tf/Dockerfile](https://github.com/AGC-NewType/agc-submit-guide/blob/main/framework/tf/Dockerfile), [framework/torch/Dockerfile](https://github.com/AGC-NewType/agc-submit-guide/blob/main/framework/torch/Dockerfile) 의 예시를 참고해주시기 바랍니다.
 
 ### Apple Slicon 컴퓨터 빌드 관련 공지
 - Apple Slicon의 경우 Dockerfile의 이미지 로딩 부분에서 다음과 같이 작성해주시기 바랍니다.
@@ -81,9 +81,9 @@ RUN apt-get install -y tzdata
 
 ENV HOME=/home/
 
-RUN mkdir -p ${HOME}/agc2022/dataset
+RUN mkdir -p ${HOME}/agc/dataset
 
-WORKDIR ${HOME}/agc2022 # 컨테이너 work dir 정의
+WORKDIR ${HOME}/agc # 컨테이너 work dir 정의
 
 COPY ./src . # src 폴더의 소스코드를 도커 컨테이너로 복사
 
@@ -100,23 +100,23 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
 > - API 결과값 json dump 및 model inference 결과값 request 과정        
 > - 추론 모델 수행 종료 및 채점 요청을 위한 'end of mission' message POST
       
-환경변수 설정은 실행될 source code main.py 상단부에 작성해야합니다. 해당 예시는 [dev/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/dev/src/main.py), [framework/tf/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/framework/tf/src/main.py), [framework/torch/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/framework/torch/src/main.py)에서 확인할 수 있습니다. 또한, data_path는 `'/home/agc2022/dataset'` 으로 작성합니다.    
+환경변수 설정은 실행될 source code main.py 상단부에 작성해야합니다. 해당 예시는 [dev/src/main.py](https://github.com/AGC-NewType/agc-submit-guide/blob/main/dev/src/main.py), [framework/tf/src/main.py](https://github.com/AGC-NewType/agc-submit-guide/blob/main/framework/tf/src/main.py), [framework/torch/src/main.py](https://github.com/AGC-NewType/agc-submit-guide/blob/main/framework/torch/src/main.py)에서 확인할 수 있습니다. 또한, data_path는 `'/home/agc/dataset'` 으로 작성합니다.    
     
 - python 환경변수 로드 예시     
 ```python    
     # load environment variable
     api_url = os.environ['REST_ANSWER_URL']    
-    data_path = '/home/agc2022/dataset'     
+    data_path = '/home/agc/dataset'     
  ```     
 - REST API 수신 주소는 추론코드가 구동되는 평가 플랫폼에 환경 변수('REST_ANSWER_URL')로 정의되어 있으며, 챌린저께서는 코드 내에서 위 환경 변수 값을 읽어와 사용하시면 됩니다.
     
 추론 과정에서 생성되는 답안 제출은 REST API를 활용하여 온라인 평가 플랫폼 내 채점서버로 전송합니다. 제출은 batch 단위로 진행해야하며, 반드시 세부문제정의서에서 언급한 메시지 구조를 따라야합니다. 다음 예시는 유형별 답안제출 예시 json 입니다. 유형별 제출 방식에 차이가 존재하므로 참가자분들께서는 참고하시기 바랍니다. (상세 메시지 구조 등은 세부문제정의서 참조)     
 - **batch단위 답안 제출 예시**
-- **"userxx"** 와 **"hash"** 값은 이해를 돕기 위한 예시입니다. 각 팀 단위 id(team_id)와 hash 값을 기입해 주세요. (팀명이 아닌, 팀ID 입니다.)
+- **"userxx"** 와 **"hash"** 값은 이해를 돕기 위한 예시입니다. 각 팀 단위 id와 hash 값을 기입해 주세요. (팀명이 아닌, 팀ID 입니다.)
 ```json
 # 유형 1 답안 제출 예시:
 {
-   "team_id": "userxx",
+   "id": "userxx",
    "hash": "!@#$%^&*()",
    "problem_no": "001",
    "task_no": "1",
@@ -125,7 +125,7 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
 
 # 유형 2 답안 제출 예시:
 {
-   "team_id": "userxx",
+   "id": "userxx",
    "hash": "!@#$%^&*()",
    "problem_no": "002",
    "task_no": "2",
@@ -134,7 +134,7 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
 
 # 유형 3 답안 제출 예시:
 {
-   "team_id": "userxx",
+   "id": "userxx",
    "hash": "!@#$%^&*()",
    "problem_no": "003",
    "task_no": "3",
@@ -143,7 +143,7 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
 
 # 유형 4 답안 제출 예시:
 {
-   "team_id": "userxx",
+   "id": "userxx",
    "hash": "!@#$%^&*()",
    "problem_no": "004",
     "task_no": "4",
@@ -166,13 +166,13 @@ end of mission은 채점서버에 답안지 제출이 끝남을 알리는 messag
 
 ```json
     {
-    "team_id": "userxx",
+    "id": "userxx",
     "hash": "!@#$%^&*()",
     "end_of_mission": "true"
     }
 ```     
          
-하단의 예시는 tensorflow기반 MNIST inference 예제 입니다. 본 예시에서는 batch를 1로 설정하여 이미지당 답안을 POST하도록 작성했습니다. 관련 내용은 [framework/tf/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/framework/tf/src/main.py), [framework/torch/src/inference.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/framework/torch/src/inference.py), [framework/torch/src/main.py](https://github.com/agc2022-new/agc-submit-guide/blob/main/framework/torch/src/main.py)에서 확인할 수 있습니다.    
+하단의 예시는 tensorflow기반 MNIST inference 예제 입니다. 본 예시에서는 batch를 1로 설정하여 이미지당 답안을 POST하도록 작성했습니다. 관련 내용은 [framework/tf/src/main.py](https://github.com/AGC-NewType/agc-submit-guide/blob/main/framework/tf/src/main.py), [framework/torch/src/inference.py](https://github.com/AGC-NewType/agc-submit-guide/blob/main/framework/torch/src/inference.py), [framework/torch/src/main.py](https://github.com/AGC-NewType/agc-submit-guide/blob/main/framework/torch/src/main.py)에서 확인할 수 있습니다.    
 
 - 결과값 POST 예시
 ``` python    
@@ -182,7 +182,7 @@ end of mission은 채점서버에 답안지 제출이 끝남을 알리는 messag
     for batch,data in enumerate(inference_loader):        
         # define answer template per batch
         template = {
-            "team_id": "userxx",
+            "id": "userxx",
             "hash": "!@#$%^&*()",
             "problem_no": "001",
             "task_no": "1",
@@ -217,7 +217,7 @@ end of mission은 채점서버에 답안지 제출이 끝남을 알리는 messag
     
     # request end of mission message
     message_structure = {
-    "team_id": "userxx",
+    "id": "userxx",
     "hash": "!@#$%^&*()",
     "end_of_mission": "true"
     }
@@ -247,7 +247,7 @@ ex)
 
 ERROR 메시지(msg)의 예는 다음과 같습니다.
 - json 포맷이 아닌 다른 형식(혹은 잘못된 형식)의 답안을 제출 했을 때 ("Please check answer format (key-value).")
-- 챌린저의 id 값이 올바르지 않을 때 ("team_id is invalid. Please check your team_id filed.")
+- 챌린저의 id 값이 올바르지 않을 때 ("id is invalid. Please check your id filed.")
 - 챌린저의 hash 값이 올바르지 않을 때 ("Hash value is invalid")
 
 
@@ -292,102 +292,12 @@ docker save -o user.tar user:1.0
 - 도커 빌드 및 이미지 저장과정에서 **참가자ID.tar** 파일 및 **도커 이미지 이름**과 **태그이름**에서 특수문자를 제외하고 저장해주시기 바랍니다.
 
 -------------------------
-## 신규 대회 공지사항
+## 추가 안내 사항
 
-신규 대회에서는 두 가지 부분에 대한 변경점이 존재합니다.
-1. 답안지 template
-2. end of mission template
-    
-### 기존의 답안지 template에 대한 변경점    
-     
-기존 답안지 템플릿에서 몇 가지 변경점이 존재합니다. 변경점은 다음과 같습니다.    
-1. 'secret' -> 'hash' key 값 수정     
-2. 'problem_no', 'task_no' key 추가 (문제지 제공)    
-3. 유형별 답안 템플릿 변경    
+1. 참가팀은 추론진행 중, 임시 쓰기(write)가 가능한 아래 경로를 제공합니다. (15GB 제한)
+/home/agc/tmp
 
-- 기존 답안 템플릿
-```json
-{
-    "team_id": "userxx",
-    "secret": "!@#$%^&*()",
-    "answer_sheet": 
-        {
-            "no": "1",
-            "answer": "4"
-        }
-}
-```
-
-- 변경 답안 템플릿
-```json
-# case1
-{
-   "team_id": "userxx",
-   "hash": "!@#$%^&*()",
-   "problem_no": "001",
-   "task_no": "1",
-   "answer": []
-}
-
-# case2
-{
-   "team_id": "userxx",
-   "hash": "!@#$%^&*()",
-   "problem_no": "002",
-   "task_no": "2",
-   "answer": []
-}
-
-# case3
-{
-   "team_id": "userxx",
-   "hash": "!@#$%^&*()",
-   "problem_no": "003",
-   "task_no": "3",
-   "answer": ""
-}
-
-# case4
-{
-   "team_id": "userxx",
-   "hash": "!@#$%^&*()",
-   "problem_no": "004",
-    "task_no": "4",
-    "answer": "",
-    "evidence": []
-}
-```    
-    
- > 'problem_no', 'task_no'의 경우 신규 대회에서 제공하는 문제지에 해당 key에 맞는 value를 기입해주시면 됩니다.    
- > 'problem_no'의 경우 3자리 숫자로 구성된 string이며, 'task_no'의 경우 문제지에 반영된 숫자를 기입하시면 됩니다.        
- > 유형별로 'answer'의 스키마에 대한 차이가 존재합니다. 스키마는 다음과 같습니다.    
- 1. 유형 1 : list     
- 2. 유형 2 : list     
- 3. 유형 3 : string     
- 4. 유형 4 : string     
- > 유형 4의 evidence는 세부문제 정의서에 정의된 부분이 추가되었습니다. 이 점 참고하시기 바랍니다.    
-
- ### end of mission 템플릿 key 값 변경점    
-     
-기존 end of mission 템플릿에서 'secret' key 값이 'hash'로 변경되었습니다.     변경된 template을 참고하여 제출해주시기 바랍니다.    
-     
-
- - 기존 end of mission 템플릿
-```json
-{
-    "team_id": "userxx",
-    "secret": "!@#$%^&*()",
-    "end_of_mission": "true"
-}
-```
-
- - 변경 end of mission 템플릿
-```json
-{
-    "team_id": "userxx",
-    "hash": "!@#$%^&*()",
-    "end_of_mission": "true"
-}
-```
-
- 
+2. 파일 업로드시 참가팀은 '자동 추론 시작' 옵션을 이용할 수 있습니다.
+- 자동 추론 시작은 파일 검증이 완료되면, 자동으로 추론을 요청하는 기능입니다. (크레딧 1 소모)
+- 제출 파일 오류 등으로 파일 검증이 완료되지 않는다면, 자동 추론 시작은 진행되지 않습니다. (크레딧 소모 X)
+- 자동 추론 시작 기능은 파일 업로드 전 선택하며, 업로드 완료 이후에는 변경할 수 없습니다.
