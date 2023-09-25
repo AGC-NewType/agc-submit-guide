@@ -121,7 +121,7 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
    "team_id": "userxx",
    "hash": "!@#$%^&*()",
    "report_no": "001",
-   "report_park": "1",
+   "report_part": "1",
    "answer": []
 }
 
@@ -130,7 +130,7 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
    "team_id": "userxx",
    "hash": "!@#$%^&*()",
    "report_no": "002",
-   "report_park": "2",
+   "report_part": "2",
    "answer": []
 }
 
@@ -139,7 +139,7 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
    "team_id": "userxx",
    "hash": "!@#$%^&*()",
    "report_no": "003",
-   "report_park": "3",
+   "report_part": "3",
    "answer": ""
 }
 
@@ -148,9 +148,9 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
    "team_id": "userxx",
    "hash": "!@#$%^&*()",
    "report_no": "004",
-    "report_park": "4",
-    "answer": "",
-    "evidence": []
+   "report_part": "4",
+   "answer": "",
+   "evidence": []
 }
 ```    
 API POST 과정에는 두가지 유의사항이 존재합니다.     
