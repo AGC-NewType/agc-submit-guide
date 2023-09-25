@@ -118,7 +118,7 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
 ```json
 # 유형 1 답안 제출 예시:
 {
-   "team_id": "userxx",
+   "id": "userxx",
    "hash": "!@#$%^&*()",
    "report_no": "001",
    "report_part": "1",
@@ -127,7 +127,7 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
 
 # 유형 2 답안 제출 예시:
 {
-   "team_id": "userxx",
+   "id": "userxx",
    "hash": "!@#$%^&*()",
    "report_no": "002",
    "report_part": "2",
@@ -136,7 +136,7 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
 
 # 유형 3 답안 제출 예시:
 {
-   "team_id": "userxx",
+   "id": "userxx",
    "hash": "!@#$%^&*()",
    "report_no": "003",
    "report_part": "3",
@@ -145,7 +145,7 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
 
 # 유형 4 답안 제출 예시:
 {
-   "team_id": "userxx",
+   "id": "userxx",
    "hash": "!@#$%^&*()",
    "report_no": "004",
    "report_part": "4",
@@ -165,7 +165,7 @@ end of mission은 채점서버에 답안지 제출이 끝남을 알리는 messag
 
 ```json
     {
-    "team_id": "userxx",
+    "id": "userxx",
     "hash": "!@#$%^&*()",
     "end_of_mission": "true"
     }
@@ -181,7 +181,7 @@ end of mission은 채점서버에 답안지 제출이 끝남을 알리는 messag
     for batch,data in enumerate(inference_loader):        
         # define answer template per batch
         template = {
-            "team_id": "userxx",
+            "id": "userxx",
             "hash": "!@#$%^&*()",
             "report_no": "001",
             "report_part": "1",
@@ -216,7 +216,7 @@ end of mission은 채점서버에 답안지 제출이 끝남을 알리는 messag
     
     # request end of mission message
     message_structure = {
-    "team_id": "userxx",
+    "id": "userxx",
     "hash": "!@#$%^&*()",
     "end_of_mission": "true"
     }

@@ -17,7 +17,7 @@ def inference(model, inference_data, device, url):
 
             # define answer template per batch
             template = {
-                "team_id": "userxx",
+                "id": "userxx",
                 "hash": "!@#$%^&*()",
                 "problem_no": "001",
                 "task_no": str(batch),

@@ -21,7 +21,7 @@ def main():
     for batch,data in enumerate(inference_loader):        
         # define answer template per batch
         template = {
-            "team_id": "userxx",
+            "id": "userxx",
             "hash": "!@#$%^&*()",
             "report_no": "001",
             "report_part": str(batch),
@@ -56,7 +56,7 @@ def main():
 
     # request end of mission message
     message_structure = {
-    "team_id": "userxx",
+    "id": "userxx",
     "hash": "!@#$%^&*()",
     "end_of_mission": "true"
     }
