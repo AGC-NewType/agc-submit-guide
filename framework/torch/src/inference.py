@@ -19,9 +19,9 @@ def inference(model, inference_data, device, url):
             template = {
                 "team_id": "userxx",
                 "hash": "!@#$%^&*()",
-                "answer": {},
                 "problem_no": "001",
-                "task_no": str(batch)            
+                "task_no": str(batch),
+                "answer": {}
                 }
                 
             # attach device to tensor

@@ -4,23 +4,22 @@ import time
 from urllib import request
 
 # REST URL load
-# api_url = os.environ['REST_ANSWER_URL']
-api_url = 'http://172.30.79.204:5000/test'
+api_url = os.environ['REST_ANSWER_URL']
 data_path = '/home/agc2022/dataset/'
 
 # answer template
 json_data = {
     "team_id": "userxx",
     "hash": "!@#$%^&*()",
-    "answer": {},
-    "problem_no": "001",
-    "task_no": "1",
-}    
-    
+    "report_no": "001",
+    "report_part": "1",
+    "answer": {}
+}
+
 # input sample data to template
 temp = {
-        "no": "1", 
-        "answer": "20"
+        "subtitle": "1",
+        "content": "Main content for test."
 }
 json_data['answer'] = temp
 
@@ -34,9 +33,9 @@ resp_json = eval(resp.read().decode('utf-8'))
 
 if "OK" == resp_json['status']:
     print("data requests successful!!")
-elif "ERROR" == resp_json['status']:    
+elif "ERROR" == resp_json['status']:
     received_message=resp_json['msg']
-    raise ValueError(received_message)    
+    raise ValueError(received_message)
     
 # request end of mission message
 message_structure = {
@@ -47,13 +46,13 @@ message_structure = {
 
 # json dump & encode utf-8
 tmp_message = json.dumps(message_structure).encode('utf-8')
-request_message = request.Request(api_url, data=tmp_message) 
+request_message = request.Request(api_url, data=tmp_message)
 resp = request.urlopen(request_message) # POST
 
 resp_json = eval(resp.read().decode('utf-8'))
 
 if "OK" == resp_json['status']:
     print("data requests successful!!")
-elif "ERROR" == resp_json['status']:    
+elif "ERROR" == resp_json['status']:
     received_message=resp_json['msg']
-    raise ValueError(received_message)    
+    raise ValueError(received_message)

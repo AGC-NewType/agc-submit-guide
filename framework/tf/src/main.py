@@ -23,9 +23,9 @@ def main():
         template = {
             "team_id": "userxx",
             "hash": "!@#$%^&*()",
-            "answer": {},
-            "problem_no": "001",
-            "task_no": str(batch)
+            "report_no": "001",
+            "report_part": str(batch),
+            "answer": {}
         }
                 
         # get inference result 
