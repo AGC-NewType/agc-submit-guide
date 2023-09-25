@@ -17,22 +17,24 @@
 │   ├── Dockerfile    
 │   └── src    
 │       └── my_model    
+│       └── tmp
 │       └── main.py    
 ```     
      
 - 작업된 소스코드는 `/src`에 넣어 빌드를 진행해 주세요. (본 예시에서는 학습한 모델이 저장된 폴더를 my_model로 작성하였습니다.)    
-
+- 추론진행 중, 임시 쓰기(write)가 가능한 경로는 `/src/tmp`로 제공됩니다.(15GB 제한)
 - 참가자분들께서는 [**참가자 유의사항**](#참가자-유의사항)을 꼭 확인해주시기 바랍니다.
 
-- 신규 대회 관련 공지는 [**신규 대회 공지사항**](#신규-대회-공지사항)을 참고해주시기 바랍니다.    
+<!-- - 신규 대회 관련 공지는 [**신규 대회 공지사항**](#신규-대회-공지사항)을 참고해주시기 바랍니다. -->
 
 - 사용하시는 개발 환경이 Apple Slicon(M1,M2)칩을 사용중일경우 [**Apple Slicon 컴퓨터 빌드 관련 공지**](#apple-slicon-컴퓨터-빌드-관련-공지)를 참고하여 이미지를 빌드해주시기 바랍니다.
 --------------------------------------------------------    
     
-본 가이드 페이지는 아래 3가지 항목으로 구분하여 도커 이미지 빌드 과정을 안내합니다.
-- [**1. 제출 파일**](#1-제출-파일도커-이미지-생성)
+본 가이드 페이지는 아래 4가지 항목으로 구분하여 도커 이미지 빌드 과정을 안내합니다.
+- [**1. 제출 파일(도커 이미지) 생성**](#1-제출-파일도커-이미지-생성)
 - [**2. 추론코드 작성**](#2-추론코드-작성)
 - [**3. 도커 이미지 빌드 & 이미지 추출**](#3-도커-이미지-빌드--이미지-추출)
+- [**4.제출 안내 사항**](#4-제출-안내-사항)
 
 ## 1. 제출 파일(도커 이미지) 생성   
 - 각 환경(tensorflow, pytorch)에 맞는 도커 이미지 예시를 폴더별로 작성했습니다.    
@@ -116,37 +118,37 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
 ```json
 # 유형 1 답안 제출 예시:
 {
-   "id": "userxx",
+   "team_id": "userxx",
    "hash": "!@#$%^&*()",
-   "problem_no": "001",
-   "task_no": "1",
+   "report_no": "001",
+   "report_park": "1",
    "answer": []
 }
 
 # 유형 2 답안 제출 예시:
 {
-   "id": "userxx",
+   "team_id": "userxx",
    "hash": "!@#$%^&*()",
-   "problem_no": "002",
-   "task_no": "2",
+   "report_no": "002",
+   "report_park": "2",
    "answer": []
 }
 
 # 유형 3 답안 제출 예시:
 {
-   "id": "userxx",
+   "team_id": "userxx",
    "hash": "!@#$%^&*()",
-   "problem_no": "003",
-   "task_no": "3",
+   "report_no": "003",
+   "report_park": "3",
    "answer": ""
 }
 
 # 유형 4 답안 제출 예시:
 {
-   "id": "userxx",
+   "team_id": "userxx",
    "hash": "!@#$%^&*()",
-   "problem_no": "004",
-    "task_no": "4",
+   "report_no": "004",
+    "report_park": "4",
     "answer": "",
     "evidence": []
 }
@@ -154,19 +156,16 @@ CMD ["python3","main.py"] # 실행할 main.py 코드.
 API POST 과정에는 두가지 유의사항이 존재합니다.     
 >- json dump 과정에서 'utf-8'로 encoding 형식을 지정합니다.      
 >- REST API로의 답안 제출 후, 응답 메시지를 확인할 수 있으며 이 또한 utf8로 디코딩하여 메시지를 확인하실 수 있습니다.       
-         
-        
-
-end of mission은 채점서버에 답안지 제출이 끝남을 알리는 message입니다. 이에 따라 'problem_no', 'task_no'를 포함하지 않습니다.         
 
 
-    
+
+end of mission은 채점서버에 답안지 제출이 끝남을 알리는 message입니다. 이에 따라 'report_no', 'report_part'를 포함하지 않습니다.         
 
 'end of mission' POST 형식은 다음과 같습니다.    
 
 ```json
     {
-    "id": "userxx",
+    "team_id": "userxx",
     "hash": "!@#$%^&*()",
     "end_of_mission": "true"
     }
@@ -182,10 +181,10 @@ end of mission은 채점서버에 답안지 제출이 끝남을 알리는 messag
     for batch,data in enumerate(inference_loader):        
         # define answer template per batch
         template = {
-            "id": "userxx",
+            "team_id": "userxx",
             "hash": "!@#$%^&*()",
-            "problem_no": "001",
-            "task_no": "1",
+            "report_no": "001",
+            "report_part": "1",
             "answer": {}
         }
                 
@@ -194,7 +193,7 @@ end of mission은 채점서버에 답안지 제출이 끝남을 알리는 messag
         
         # extract label from inference output
         batch_label = [int(np.argmax(sample)) for sample in output]
-        tmp_answer = {"no":str(batch+1), "answer" : str(batch_label[0])}
+        tmp_answer = {"no" : str(batch+1), "answer" : str(batch_label[0])}
         template['answer'] = tmp_answer
         
         # apply utf-8 to str json data
@@ -217,7 +216,7 @@ end of mission은 채점서버에 답안지 제출이 끝남을 알리는 messag
     
     # request end of mission message
     message_structure = {
-    "id": "userxx",
+    "team_id": "userxx",
     "hash": "!@#$%^&*()",
     "end_of_mission": "true"
     }
@@ -258,13 +257,16 @@ status가 'OK'일 경우 별도의 message를 return하지 않으며, `ERROR`의
 
 <span style="color: red">※ 단, 위 과정은 1회의 추론 횟수가 소모되는 것으로 참가팀 환경에서 충분히 테스트 후 평가 플랫폼에서 진행해 주세요.</span>    
 
-
 2. 도커 이미지 실행 및 오류 메시지 확인 관련    
 참가자가 제출한 도커 이미지는 평가 플랫폼 내의 데이터 셋 마운트, 답안 제출 환경 변수 추가 등 진행에 필요한 내용 추가를 제외하고 그대로 실행됩니다.    
 추론 오류 시 확인하실 수 있는 오류 메시지는 실제 코드가 수행 된 이후 발생한 오류 메시지만 확인 가능하며, 참가자가 직접 작성한 쉘 스크립트 수행 과정 등 코드 외 오류들은 확인이 어렵습니다. 이 또한 참가팀 환경에서 충분히 테스트 후 평가 플랫폼에서 진행 부탁드립니다.    
 
 3. end of mission 메세지 미제출 관련    
 **답안지를 모두 보낸 후에는 반드시 'end of mission' 메세지를 POST 해야합니다. 해당 메세지가 제출되지 않을 경우, 답안이 제출되었어도, 추론 종료 후 채점이 진행되지 않습니다. 이 점 유의 부탁드립니다.**
+
+4. 추론진행 중, 임시 쓰기 경로 확인
+본 대회는 추론진행 과정중 임시로 최대 15GB의 쓰기가 가능한 디렉토리(**`/home/agc/tmp`**)를 제공합니다.   
+모델 추론과정에서 쓰기 작업은 해당 폴더에서만 가능하며, 다른 폴더에는 쓰기권한이 부여되지 않습니다. 
 ------------
                
 ## 3. 도커 이미지 빌드 & 이미지 추출        
@@ -288,18 +290,18 @@ docker build -f dockerfile_submit -t user:1.0
 
 docker save -o user.tar user:1.0
 ```
-
 - 도커 빌드 및 이미지 저장과정에서 **참가자ID.tar** 파일 및 **도커 이미지 이름**과 **태그이름**에서 특수문자를 제외하고 저장해주시기 바랍니다.
 
 -------------------------
-## 추가 안내 사항
-
-1. 참가팀은 추론진행 중, 임시 쓰기(write)가 가능한 아래 경로를 제공합니다. (15GB 제한)
+## 4. 제출 안내 사항
+<!-- 
+**  참가팀은 추론진행 중, 임시 쓰기(write)가 가능한 아래 경로를 제공합니다. (15GB 제한)
 ```bsh    
 /home/agc/tmp
 ```
+-->
 
-2. 파일 업로드시 참가팀은 '자동 추론 시작' 옵션을 이용할 수 있습니다.
+**  파일 업로드시 참가팀은 '자동 추론 시작' 옵션을 이용할 수 있습니다.
 - 자동 추론 시작은 파일 검증이 완료되면, 자동으로 추론을 요청하는 기능입니다. (크레딧 1 소모)
 - 제출 파일 오류 등으로 파일 검증이 완료되지 않는다면, 자동 추론 시작은 진행되지 않습니다. (크레딧 소모 X)
 - 자동 추론 시작 기능은 파일 업로드 전 선택하며, 업로드 완료 이후에는 변경할 수 없습니다.
